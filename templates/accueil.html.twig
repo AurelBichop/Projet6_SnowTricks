@@ -21,7 +21,7 @@
 
 
         <div class="row mx-3">
-            {% for i in 0..14 %}
+            {% for trick in tricks %}
                 <div class="mx-auto my-5">
                     <div class="card border-info mb-3" style="max-width: 20rem;">
                         <div class="card-header">
@@ -30,10 +30,10 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-8">
-                                    <a href="#"><h4 class="card-title">Trick name</h4></a>
+                                    <a href="#"><h4 class="card-title">{{ trick.titre }}</h4></a>
                                 </div>
                                 <div class="col-2">
-                                    <a href="#"><i class="fas fa-pen"></i></a>
+                                    <a href="show/{{ trick.id }}"><i class="fas fa-pen"></i></a>
                                 </div>
                                 <div class="col">
                                     <i class="fas fa-trash" onclick="alert('Confirmation')"></i>
