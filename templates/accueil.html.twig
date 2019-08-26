@@ -2,23 +2,30 @@
 
 
 {% block body %}
-    <div class="container-fluid my-5">
-        <div class="jumbotron">
-            <h1 class="display-3">Hello, world!</h1>
-            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-            <hr class="my-4">
-            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-            <p class="lead">
-                <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-            </p>
+    <div class="container-fluid my-3">
+
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="imageTest/banniere.jpg" class="d-block w-100 img-fluid rounded" alt="banniere du site">
+
+                    <div class="carousel-caption">
+                        <h1>Tricks for the life, for the good time, we like that</h1>
+
+                    </div>
+                    <a href="#footer" class="btn btn-primary float-right mt-1"><i class="fas fa-arrow-down"></i></a>
+
+                </div>
+            </div>
         </div>
 
-        <div class="row mx-auto">
+
+        <div class="row mx-3">
             {% for i in 0..14 %}
-                <div class="mx-auto my-3">
+                <div class="mx-auto my-5">
                     <div class="card border-info mb-3" style="max-width: 20rem;">
                         <div class="card-header">
-                            <img src="imageTest/sports.jpeg" alt="image du trick" class="rounded">
+                            <img src="imageTest/sports.jpeg" alt="image du trick" class="rounded img-fluid">
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -44,7 +51,19 @@
                     </div>
                 </div>
             {% endfor %}
+
+
         </div>
+
+        <div class="row">
+
+            <div class="card offset-md-5 col-md-2 offset-md-5">
+                <div class="card-body text-center"><i class="fas fa-spinner"></i> Load more</div>
+            </div>
+
+        </div>
+        <a href="#" class="btn btn-primary float-right mt-1"><i class="fas fa-arrow-up"></i></a>
     </div>
+
 
 {% endblock %}
