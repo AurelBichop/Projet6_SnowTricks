@@ -30,10 +30,10 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-8">
-                                    <a href="#"><h4 class="card-title">{{ trick.titre }}</h4></a>
+                                    <a href="{{ trick.slug }}"><h4 class="card-title">{{ trick.titre }}</h4></a>
                                 </div>
                                 <div class="col-2">
-                                    <a href="show/{{ trick.id }}"><i class="fas fa-pen"></i></a>
+                                    <a href="update/{{ trick.id }}"><i class="fas fa-pen"></i></a>
                                 </div>
                                 <div class="col">
                                     <i class="fas fa-trash" onclick="alert('Confirmation')"></i>
