@@ -3,13 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
+use App\Form\RegistrationType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AccountUserController extends AbstractController
 {
@@ -21,16 +22,27 @@ class AccountUserController extends AbstractController
      * @Route("/login", name="account_login")
      * @return Response
      */
-    public function login()
+    public function login(AuthenticationUtils $utils)
     {
+        $error = $utils->getLastAuthenticationError();
+
 
         return $this->render('account/login.html.twig',[
-            'hasError' => 'error'
+            'error' => $error !== null
         ]);
     }
 
     /**
-     * Permet l'enregistrement d'un utilisateur
+     * Permet de se deconnecter
+     * @Route("/logout", name="account_logout")
+     */
+    public function logout()
+    {
+
+    }
+
+    /**
+     * Permet d'afficher le formulaire et l'enregistrement d'un utilisateur
      *
      * @Route("/register", name="account_register")
      *
@@ -39,7 +51,7 @@ class AccountUserController extends AbstractController
     public function register(Request $request,ObjectManager $manager, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
-        $form = $this->createForm(UserType::class,$user);
+        $form = $this->createForm(RegistrationType::class,$user);
 
         $form->handleRequest($request);
 

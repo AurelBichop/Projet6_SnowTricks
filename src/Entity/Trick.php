@@ -6,9 +6,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(
+ *     fields={"titre"},
+ *     message="Un trick possede deja ce titre"
+ * )
+ *
  */
 class Trick
 {
@@ -21,11 +29,13 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=3, max=255, minMessage="Le titre ne peut pas faire moins de 3 caracteres",maxMessage="Le titre ne peut pas faire plus de 255 caracteres")
      */
     private $titre;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=20,minMessage="La description ne peut pas faire moins de 20 caracteres")
      */
     private $description;
 
