@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ trick.titre }}{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h1>{{ trick.titre }}</h1>
+        <div class="row">
+            <img src="http://lorempixel.com/1200/400/sports" alt="image du trick {{ trick.titre }}" class="rounded img-fluid">
+        </div>
+        <div class="row my-3">
+
+            {% for i in 1..4 %}
+                <div class="col-3 mb-3">
+                    <img src="http://lorempixel.com/200/200/sports" alt="image du trick {{ trick.titre }}" class="rounded img-fluid">
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>{{ trick.description }}</p>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col text-center mb-3">
+                <span class="btn btn-success">Crée le 10/12/2018</span>
+            </div>
+
+            <div class="col text-center mb-3">
+                <span class="btn btn-danger">Modifier le 12/10/2019</span>
+            </div>
+
+            <div class="col text-center mb-3">
+                <span class="btn btn-warning">{{ trick.variety }}</span>
+            </div>
+
+        </div>
+
+        <hr>
+
+        {% if app.user %}
+
+            <form action="#" method="post">
+
+                <div class="row justify-content-center my-5">
+
+
+                    <div class="col-8">
+                        <input type="text" id="comment" name="comment" class="form-control">
+                    </div>
+
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-primary"><label for="comment">Leave a comment</label></button>
+                    </div>
+
+                </div>
+
+            </form>
+
+            <hr>
+
+            {% for comment in trick.comment %}
+
+            <div class="row justify-content-center my-3">
+                <div class="col-1">
+                    <i class="fas fa-user-circle fa-3x"></i>
+                </div>
+                <div class="col-8">
+                    <div class="alert alert-info">{{ comment.content }}</div>
+                </div>
+            </div>
+
+            {% endfor %}
+
+            <div class="row">
+
+                <div class="card offset-md-5 col-md-2 offset-md-5">
+                    <div class="card-body text-center"><i class="fas fa-spinner"></i> Load more</div>
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+{% endblock %}
+
