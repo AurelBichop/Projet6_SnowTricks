@@ -7,6 +7,7 @@ use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,10 @@ class TrickController extends AbstractController
     /**
      * Permet d'ajouter un nouveau trick
      *
+     * @IsGranted("ROLE_USER")
+     *
      * @Route("/trick/new", name="new_trick")
+     *
      */
     public function create(Request $request,ObjectManager $manager)
     {
@@ -50,6 +54,8 @@ class TrickController extends AbstractController
      * Permet la suppression d'un trick
      *
      * @Route("/trick/{slug}/delete", name="delete_trick")
+     * @IsGranted("ROLE_USER")
+     *
      * @return Response
      */
     public function delete(Trick $trick,ObjectManager $manager){
