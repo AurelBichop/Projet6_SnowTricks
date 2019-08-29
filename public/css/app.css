@@ -1,0 +1,17 @@
+.banniere-accueil{
+    background-image: url("../imageTest/banniere.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 600px;
+}
+
+.slogan{
+    font-family: "Cabin Sketch", cursive;
+    font-weight: bold;
+    font-size: 3em;
+    text-shadow: 0 0 3px #FF0000, 0 0 5px white;
+}
+
+.trick-card{
+    max-width: 20rem;
+}
