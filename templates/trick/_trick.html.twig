@@ -13,7 +13,7 @@
 
                         {% if app.user %}
                             <div class="col-2">
-                                <a href="update/{{ trick.id }}"><i class="fas fa-pen"></i></a>
+                                <a href="{{ path('edit_trick',{'slug':trick.slug }) }}"><i class="fas fa-pen"></i></a>
                             </div>
                             <div class="col">
                                 <a href="{{ path('delete_trick',{'slug':trick.slug }) }}" onclick="return confirm('Voulez vous vraiment supprimer le Trick : {{ trick.titre }}')"><i class="fas fa-trash"></i></a>

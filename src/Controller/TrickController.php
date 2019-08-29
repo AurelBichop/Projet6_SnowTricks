@@ -50,25 +50,7 @@ class TrickController extends AbstractController
         ]);
     }
 
-    /**
-     * Permet la suppression d'un trick
-     *
-     * @Route("/trick/{slug}/delete", name="delete_trick")
-     * @IsGranted("ROLE_USER")
-     *
-     * @return Response
-     */
-    public function delete(Trick $trick,ObjectManager $manager){
 
-        $manager->remove($trick);
-        $manager->flush();
-
-        $this->addFlash(
-            'success',
-            "Le trick {$trick->getTitre()} à bien été supprimé"
-        );
-        return $this->redirectToRoute('accueil');
-    }
 
     /**
      * Permet de d'afficher la liste de tout les tricks
@@ -97,5 +79,57 @@ class TrickController extends AbstractController
         return $this->render('trick/show.html.twig',[
             'trick' => $trick,
         ]);
+    }
+
+    /**
+     * Permet la mise a jour d'un trick
+     * @IsGranted("ROLE_USER")
+     *
+     * @Route("/trick/{slug}/edit", name="edit_trick")
+     */
+    public function edit(Trick $trick,Request $request, ObjectManager $manager){
+
+        $form = $this->createForm(TrickType::class, $trick);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $manager->persist($trick);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "La fiche <strong>{$trick->getTitre()}</strong> a bien été mise à jour !"
+            );
+            return $this->redirectToRoute('show_trick',[
+                'slug'=>$trick->getSlug()
+            ]);
+        }
+
+        return $this->render('trick/edit.html.twig',[
+            'trick' => $trick,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Permet la suppression d'un trick
+     *
+     * @Route("/trick/{slug}/delete", name="delete_trick")
+     * @IsGranted("ROLE_USER")
+     *
+     * @return Response
+     */
+    public function delete(Trick $trick,ObjectManager $manager){
+
+        $manager->remove($trick);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "Le trick {$trick->getTitre()} à bien été supprimé"
+        );
+        return $this->redirectToRoute('accueil');
     }
 }

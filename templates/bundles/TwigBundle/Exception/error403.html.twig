@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page non trouvée{% endblock %}
+
+{% block body %}
+
+    <div class="container my-3">
+        <h1>Vous n'avez pas le droit d'acceder à cette ressource !</h1>
+        <br>
+        <a href="{{ path('accueil') }}" class="btn btn-primary">Retour à l'accueil</a>
+        <a href="{{ path('all_trick') }}" class="btn btn-outline-dark">Les tricks</a>
+    </div>
+
+{% endblock %}

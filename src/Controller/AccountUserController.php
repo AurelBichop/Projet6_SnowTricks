@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Form\UserAccountType;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +27,6 @@ class AccountUserController extends AbstractController
     public function login(AuthenticationUtils $utils)
     {
         $error = $utils->getLastAuthenticationError();
-
 
         return $this->render('account/login.html.twig',[
             'error' => $error !== null
@@ -75,4 +76,35 @@ class AccountUserController extends AbstractController
         ]);
     }
 
+
+    /**
+     * Permet de modifier les informations du profile utilisateur
+     *
+     * @Route("/account/profile", name="account_profile")
+     * @IsGranted("ROLE_USER")
+     *
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return Response
+     */
+    public function edit(Request $request,ObjectManager $manager){
+
+        $user = $this->getUser();
+
+        $form = $this->createForm(UserAccountType::class,$user);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            $manager->persist($user);
+            $manager->flush();
+            $this->addFlash(
+                'success',
+                "Les données du profil ont été enregistrées avec succès !"
+            );
+        }
+        return $this->render('account/profile.html.twig',[
+            'form' => $form->createView()
+        ]);
+    }
 }

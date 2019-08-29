@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ trick.titre }}{% endblock %}
+
+{% block body %}
+    <div class="container my-5">
+        <h1>Modifier {{ trick.titre }}</h1>
+        <div class="row">
+            <img src="http://lorempixel.com/1200/400/sports" alt="image du trick {{ trick.titre }}" class="rounded img-fluid">
+        </div>
+        <div class="row my-3">
+
+            {% for i in 1..4 %}
+                <div class="col-3 mb-3">
+                    <img src="http://lorempixel.com/200/200/sports" alt="image du trick {{ trick.titre }}" class="rounded img-fluid">
+                </div>
+            {% endfor %}
+        </div>
+
+        {{ form_start(form) }}
+
+        {{form_widget(form)}}
+
+
+        <button type="submit" class="btn btn-primary float-right">Sauvegarder</button> <a href="{{ path('delete_trick',{'slug':trick.slug }) }}" onclick="return confirm('Voulez vous vraiment supprimer le Trick : {{ trick.titre }}')" class="btn btn-danger float-right">Supprimer</a>
+        {{ form_end(form) }}
+
+
+
+
+    </div>
+
+
+{% endblock %}
+

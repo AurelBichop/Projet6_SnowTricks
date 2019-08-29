@@ -79,14 +79,10 @@ class Trick
      */
     public function initSlug(){
 
-        if(empty($this->slug)){
+        $slug = trim(strtolower($this->titre));
+        $slug = str_replace(' ','-',$slug);
 
-            $slug = trim(strtolower($this->titre));
-            $slug = str_replace(' ','-',$slug);
-
-            $this->slug = $slug;
-        }
-
+        $this->slug = $slug;
     }
 
     public function getId(): ?int
