@@ -2,22 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="296abe6f-b62a-4013-9d6f-667967941fa7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/DataFixtures/AppFixtures.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20190902102630.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20190902120932.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20190902121131.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/AccountUserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AccountUserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TrickController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TrickController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Trick.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Trick.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/account/register.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/account/register.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/trick/_trick.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trick/_trick.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -185,7 +170,7 @@
       <workItem from="1567076965555" duration="8128000" />
       <workItem from="1567168365940" duration="2671000" />
       <workItem from="1567415548886" duration="16000" />
-      <workItem from="1567415579415" duration="11713000" />
+      <workItem from="1567415579415" duration="12712000" />
     </task>
     <servers />
   </component>
