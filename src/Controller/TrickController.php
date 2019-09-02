@@ -8,6 +8,7 @@ use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,11 +84,11 @@ class TrickController extends AbstractController
 
     /**
      * Permet la mise a jour d'un trick
-     * @IsGranted("ROLE_USER")
+     * @Security("is_granted('ROLE_USER') and user === trick.getAuthor()")
      *
      * @Route("/trick/{slug}/edit", name="edit_trick")
      */
-    public function edit(Trick $trick,Request $request, ObjectManager $manager){
+    public function edit(Trick $trick, Request $request, ObjectManager $manager){
 
         $form = $this->createForm(TrickType::class, $trick);
 
@@ -109,7 +110,7 @@ class TrickController extends AbstractController
 
         return $this->render('trick/edit.html.twig',[
             'trick' => $trick,
-            'form' => $form->createView()
+            'form'  => $form->createView()
         ]);
     }
 
@@ -117,7 +118,7 @@ class TrickController extends AbstractController
      * Permet la suppression d'un trick
      *
      * @Route("/trick/{slug}/delete", name="delete_trick")
-     * @IsGranted("ROLE_USER")
+     * @Security("is_granted('ROLE_USER') and user === trick.getAuthor()")
      *
      * @return Response
      */

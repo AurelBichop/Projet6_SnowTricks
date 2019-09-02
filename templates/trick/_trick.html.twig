@@ -11,7 +11,7 @@
                             <a href="{{ path('show_trick',{'slug':trick.slug }) }}"><h4 class="card-title">{{ trick.titre }}</h4></a>
                         </div>
 
-                        {% if app.user %}
+                        {% if app.user and app.user == trick.author %}
                             <div class="col-2">
                                 <a href="{{ path('edit_trick',{'slug':trick.slug }) }}"><i class="fas fa-pen"></i></a>
                             </div>
