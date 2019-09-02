@@ -80,6 +80,11 @@ class Trick
      */
     private $author;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $coverImage;
+
     public function __construct()
     {
         $this->image = new ArrayCollection();
@@ -281,6 +286,18 @@ class Trick
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getCoverImage(): ?string
+    {
+        return $this->coverImage;
+    }
+
+    public function setCoverImage(string $coverImage): self
+    {
+        $this->coverImage = $coverImage;
 
         return $this;
     }

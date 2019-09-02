@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\HasLifecycleCallbacks
  * @UniqueEntity(
  *     fields={"email"},
  *     message="Un autre utilisateur est déja inscrit avec cette adresse email"
@@ -63,6 +64,16 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Trick", mappedBy="author")
      */
     private $tricks;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $valid;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $token;
 
     public function __construct()
     {
@@ -223,5 +234,49 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    public function getValid(): ?int
+    {
+        return $this->valid;
+    }
+
+    public function setValid(int $valid): self
+    {
+        $this->valid = $valid;
+
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Initialise le champ valid a 0 lors de la création du compte
+     * @ORM\PrePersist
+     */
+    public function initValid(){
+        if(empty($this->valid)){
+            $this->valid = 0;
+        }
+    }
+
+    /**
+     * Permet la génération d'un token à partir de l'email
+     * @ORM\PrePersist
+     */
+    public function initToken(){
+        if(empty($this->token)){
+            $this->token = md5($this->email);
+        }
     }
 }

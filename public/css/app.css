@@ -12,6 +12,16 @@
     text-shadow: 0 0 3px #FF0000, 0 0 5px white;
 }
 
+div.trick-title {
+    color: white;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 400px;
+    width: 1200px;
+    border-radius: 20px;
+
+}
+
 .trick-card{
     max-width: 20rem;
 }

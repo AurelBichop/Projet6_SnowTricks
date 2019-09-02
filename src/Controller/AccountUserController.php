@@ -61,8 +61,6 @@ class AccountUserController extends AbstractController
 
             $user->setPassword($encoder->encodePassword($user,$user->getPassword()));
 
-            dump($form);
-            /*
             $manager->persist($user);
             $manager->flush();
 
@@ -71,7 +69,7 @@ class AccountUserController extends AbstractController
                 "Bonjour {$user->getFullname()} et bienvenue sur SnowTrick"
             );
 
-            return $this->redirectToRoute('accueil');*/
+            return $this->redirectToRoute('accueil');
         }
 
         return $this->render('account/register.html.twig', [
