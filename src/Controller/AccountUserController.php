@@ -7,6 +7,8 @@ use App\Form\RegistrationType;
 use App\Form\UserAccountType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Swift_Mailer;
+use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,9 +49,13 @@ class AccountUserController extends AbstractController
      *
      * @Route("/register", name="account_register")
      *
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @param UserPasswordEncoderInterface $encoder
+     * @param Swift_Mailer $mailer
      * @return Response
      */
-    public function register(Request $request,ObjectManager $manager, UserPasswordEncoderInterface $encoder)
+    public function register(Request $request,ObjectManager $manager, UserPasswordEncoderInterface $encoder,Swift_Mailer $mailer)
     {
         $user = new User();
         $form = $this->createForm(RegistrationType::class,$user);
@@ -62,6 +68,19 @@ class AccountUserController extends AbstractController
 
             $manager->persist($user);
             $manager->flush();
+
+
+            // Create a message ******
+
+            $message = (new Swift_Message('Validation de votre inscription'))
+                ->setFrom('aurel.bichop@laposte.net')
+                ->setTo($user->getEmail())
+                ->setBody(' Bonjour dans le but de confirmer votre compte merci de cliquer sur ce lien : http://127.0.0.1:8000/confirm/'.$user->getToken());
+
+            $mailer->send($message);
+
+            //************************
+
 
             $this->addFlash(
                 'info',
@@ -98,6 +117,7 @@ class AccountUserController extends AbstractController
 
             $manager->persist($user);
             $manager->flush();
+
             $this->addFlash(
                 'success',
                 "Les données du profil ont été enregistrées avec succès !"
@@ -107,4 +127,27 @@ class AccountUserController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * Permet de confirmer un compte utilisateur
+     *
+     * @Route("/confirm/{token}", name="account_confirm")
+     *
+     * @return string
+     */
+    public function confirmUser(User $user,ObjectManager $manager){
+
+        $user->setValid(1);
+
+        $manager->persist($user);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "Merci votre compte est validé !"
+        );
+
+        return $this->redirectToRoute('account_login');
+    }
+
 }
