@@ -6,10 +6,12 @@ namespace App\Controller;
 use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
+use App\Service\FileUploader;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,9 +25,12 @@ class TrickController extends AbstractController
      * @IsGranted("ROLE_USER")
      *
      * @Route("/trick/new", name="new_trick")
-     *
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @param FileUploader $fileUploader
+     * @return RedirectResponse|Response
      */
-    public function create(Request $request,ObjectManager $manager)
+    public function create(Request $request,ObjectManager $manager, FileUploader $fileUploader)
     {
         $trick = new Trick();
 
@@ -34,6 +39,17 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            //recupere le fichier de la request
+            $coverImage = $form['coverImage']->getData();
+
+            if($coverImage)
+            {
+                $coverImage = $fileUploader->upload($coverImage);
+                $trick->setCoverImage($coverImage);
+            }
+
+            $trick->setAuthor($this->getUser());
 
             $manager->persist($trick);
             $manager->flush();
@@ -73,7 +89,8 @@ class TrickController extends AbstractController
      * et enregistre les commentaires
      *
      * @Route("/trick/{slug}",name="show_trick")
-     *
+     * @param Trick $trick
+     * @return Response
      */
     public function show(Trick $trick){
 
@@ -87,6 +104,10 @@ class TrickController extends AbstractController
      * @Security("is_granted('ROLE_USER') and user === trick.getAuthor()")
      *
      * @Route("/trick/{slug}/edit", name="edit_trick")
+     * @param Trick $trick
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return RedirectResponse|Response
      */
     public function edit(Trick $trick, Request $request, ObjectManager $manager){
 
@@ -120,6 +141,8 @@ class TrickController extends AbstractController
      * @Route("/trick/{slug}/delete", name="delete_trick")
      * @Security("is_granted('ROLE_USER') and user === trick.getAuthor()")
      *
+     * @param Trick $trick
+     * @param ObjectManager $manager
      * @return Response
      */
     public function delete(Trick $trick,ObjectManager $manager){

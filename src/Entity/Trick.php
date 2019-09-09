@@ -85,6 +85,7 @@ class Trick
      */
     private $coverImage;
 
+
     public function __construct()
     {
         $this->image = new ArrayCollection();
@@ -105,6 +106,24 @@ class Trick
 
         $this->slug = $slug;
     }
+
+    /**
+     * CallBack Appelé a chaque fois qu'on créé un Trick
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function prePersist()
+    {
+        if (empty($this->createdAt)) {
+            $this->createdAt = new \DateTime();
+        }
+    }
+
+
 
     public function getId(): ?int
     {
