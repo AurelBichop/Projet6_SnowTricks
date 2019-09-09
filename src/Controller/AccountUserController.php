@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Form\UserAccountType;
+use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swift_Mailer;
@@ -70,16 +71,16 @@ class AccountUserController extends AbstractController
             $manager->flush();
 
 
-            // Create a message ******
+            // Create a message ***************************************************
 
             $message = (new Swift_Message('Validation de votre inscription'))
                 ->setFrom('aurel.bichop@laposte.net')
                 ->setTo($user->getEmail())
-                ->setBody(' Bonjour dans le but de confirmer votre compte merci de cliquer sur ce lien : http://127.0.0.1:8000/confirm/'.$user->getToken());
+                ->setBody(' Bonjour dans le but de confirmer votre compte merci de cliquer sur ce lien : http://127.0.0.1:8000/confirm/?token='.$user->getToken());
 
             $mailer->send($message);
 
-            //************************
+            //*********************************************************************
 
 
             $this->addFlash(
@@ -131,21 +132,37 @@ class AccountUserController extends AbstractController
     /**
      * Permet de confirmer un compte utilisateur
      *
-     * @Route("/confirm/{token}", name="account_confirm")
+     * @Route("/confirm", name="account_confirm")
      *
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @param ObjectManager $manager
      * @return string
      */
-    public function confirmUser(User $user,ObjectManager $manager){
+    public function confirmUser(Request $request, UserRepository $userRepository, ObjectManager $manager){
 
-        $user->setValid(1);
+        $token = $request->query->get('token');
 
-        $manager->persist($user);
-        $manager->flush();
+        $user = $userRepository->findOneBy(['token'=>$token]);
 
-        $this->addFlash(
-            'success',
-            "Merci votre compte est validé !"
-        );
+        if($user !== null && $user->getValid() === 0){
+
+            $user->setValid(1);
+
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Merci votre compte est validé !"
+            );
+
+        }else{
+            $this->addFlash(
+                'danger',
+                "Compte déja validé ou inexistant"
+            );
+        }
 
         return $this->redirectToRoute('account_login');
     }
