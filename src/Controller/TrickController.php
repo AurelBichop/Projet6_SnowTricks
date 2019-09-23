@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 
+use App\Entity\Image;
 use App\Entity\Trick;
+use App\Form\ImageType;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use App\Service\FileUploader;
@@ -85,6 +87,56 @@ class TrickController extends AbstractController
     }
 
     /**
+     * Pour l'ajout d'une image a un trick
+     *
+     * @Route("/trick/image", name="image_trick")
+     *
+     * @param Request $request
+     * @param TrickRepository $trickRepository
+     * @param ObjectManager $manager
+     * @param FileUploader $fileUploader
+     *
+     * @return Response
+     */
+    public function addImage(Request $request,TrickRepository $trickRepository,ObjectManager $manager, FileUploader $fileUploader){
+        //créer et afficher un formulaire image
+        $image = new Image();
+
+        $idTrick = $request->query->get('id');
+
+        $trick = $trickRepository->findOneBy(['id'=>$idTrick]);
+        $image->setTrick($trick);
+
+        $formNewImage = $this->createForm(ImageType::class,$image);
+        $formNewImage->handleRequest($request);
+
+        if($formNewImage->isSubmitted() && $formNewImage->isValid()){
+
+            //recupere le fichier de la request
+            $formImage = $formNewImage['url']->getData();
+
+            $formImage = $fileUploader->upload($formImage);
+
+            $image->setUrl($formImage);
+
+            $manager->persist($image);
+            $manager->flush();
+
+            $this->addFlash(
+                'info',
+                "L'image a bien été ajouté"
+            );
+            return $this->redirectToRoute('show_trick',["slug"=>$trick->getSlug()]);
+        }
+
+        return $this->render('image/new_image.html.twig', [
+            'form' => $formNewImage->createView(),
+            'idTrick'=>$idTrick
+        ]);
+    }
+
+
+    /**
      * Permet d'afficher un trick en lien avec son slug (param converter)
      * et enregistre les commentaires
      *
@@ -156,4 +208,5 @@ class TrickController extends AbstractController
         );
         return $this->redirectToRoute('accueil');
     }
+
 }

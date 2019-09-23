@@ -15,9 +15,14 @@
 
             {% for image in trick.image %}
                 <div class="col-3 mb-3">
-                    <img src="{{ image.url }}" alt="image {{ image.title }}" class="rounded img-fluid">
+                    <img src="{{ asset('uploads/images/') }}{{ image.url }}" alt="image {{ image.title }}" class="rounded img-fluid">
                 </div>
             {% endfor %}
+
+            <div class="col-3 mb-3">
+                <a href="#" id="cool">Page ajax</a>
+            </div>
+
         </div>
         <div class="row">
             <div class="col">
@@ -88,6 +93,43 @@
 
 </div>
 
+    <div class="modal fade bs-example-modal-lg" id="fenetre" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body" id="formulaire">
+
+                </div>
+                <div class="modal-footer clearfix"></div>
+            </div>
+        </div>
+    </div>
+
 
 {% endblock %}
 
+{% block javascripts %}
+<script>
+
+    $( document ).ready(function() {
+        console.log( "ready!" );
+
+        const appel = $("#cool");
+
+        appel.click(function(){
+            //Appel ajax et affiche la fenetre modal
+            $.ajax({
+                url: "{{ path('image_trick') }}",
+                data: {
+                    id: {{ trick.id }}
+                }
+                }).done(function(data){
+                    $("#formulaire").html(data);
+                    $('#fenetre').modal('show');
+            });
+
+        });
+    });
+
+
+</script>
+{% endblock %}
