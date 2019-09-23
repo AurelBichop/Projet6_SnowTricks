@@ -2,28 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="296abe6f-b62a-4013-9d6f-667967941fa7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/js/bootstrap.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/popper.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/080612200831_34 - Copie-5d88851332fc6.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/080612200831_34 - Copie-5d888a892a6cf.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/11. Groupe-5d8886d71d283.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/11. Groupe-5d888775186c9.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/12. D'un côté-5d888cf745d91.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/12. D'un côté-5d88934527a45.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/14. Vue d'ensemble-5d88935dcbe5e.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/16. Père-5d888fc092530.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/2. Ca fume!-5d88889858744.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/3. Les trois Grâces-5d8888b2df4ce.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/5. Raph-Aurel-5d888c0d2cbd1.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/5. Raph-Aurel-5d888ce9ea46c.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/8. Mère-Clément-5d8893cada4a7.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/8. Mère-Clément-5d88940b9d2d2.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/ImageType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/image/new_image.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TrickController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TrickController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/image/new_image.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/image/new_image.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/trick/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trick/show.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -212,7 +192,7 @@
       <workItem from="1568615391880" duration="2183000" />
       <workItem from="1569170121259" duration="15000" />
       <workItem from="1569170144702" duration="5976000" />
-      <workItem from="1569220797782" duration="9345000" />
+      <workItem from="1569220797782" duration="10830000" />
     </task>
     <servers />
   </component>
