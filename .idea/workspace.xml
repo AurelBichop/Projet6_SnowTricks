@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="296abe6f-b62a-4013-9d6f-667967941fa7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/public/uploads/images/14. Vue d'ensemble-5d8f2928599d3.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/image/new_image.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/image/new_image.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/TrickController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TrickController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/trick/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trick/edit.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/trick/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trick/show.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -153,6 +155,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\aurel\Desktop\PROJET 6\Projet6_SnowTricks\public\imageTest" />
       <recent name="C:\Users\aurel\Desktop\PROJET 6\Projet6_SnowTricks\public\js" />
     </key>
   </component>
@@ -192,7 +195,9 @@
       <workItem from="1568615391880" duration="2183000" />
       <workItem from="1569170121259" duration="15000" />
       <workItem from="1569170144702" duration="5976000" />
-      <workItem from="1569220797782" duration="10830000" />
+      <workItem from="1569220797782" duration="11260000" />
+      <workItem from="1569657906654" duration="27000" />
+      <workItem from="1569657990905" duration="5747000" />
     </task>
     <servers />
   </component>

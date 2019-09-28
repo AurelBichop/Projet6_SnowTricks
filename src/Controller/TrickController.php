@@ -89,6 +89,8 @@ class TrickController extends AbstractController
     /**
      * Pour l'ajout d'une image a un trick
      *
+     *
+     *
      * @Route("/trick/image", name="image_trick")
      *
      * @param Request $request
@@ -126,13 +128,38 @@ class TrickController extends AbstractController
                 'info',
                 "L'image a bien été ajouté"
             );
-            return $this->redirectToRoute('show_trick',["slug"=>$trick->getSlug()]);
+            return $this->redirectToRoute('edit_trick',["slug"=>$trick->getSlug()]);
         }
 
         return $this->render('image/new_image.html.twig', [
             'form' => $formNewImage->createView(),
             'idTrick'=>$idTrick
         ]);
+    }
+
+    /**
+     * Pour la supression d'une image de trick
+     *
+     * @Security("is_granted('ROLE_USER') and user === image.getTrick().getAuthor()")
+     *
+     * @Route("/trick/image/{id}/delete",name="delete_image")
+     * @param Image $image
+     * @param ObjectManager $manager
+     * @return RedirectResponse
+     */
+    public function deleteImage(Image $image, ObjectManager $manager){
+
+        unlink('uploads/images/'.$image->getUrl());
+
+        $manager->remove($image);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "L'image à bien été supprimé"
+        );
+        return $this->redirectToRoute('edit_trick',["slug"=>$image->getTrick()->getSlug()]);
+
     }
 
 
@@ -201,6 +228,7 @@ class TrickController extends AbstractController
 
         $manager->remove($trick);
         $manager->flush();
+
 
         $this->addFlash(
             'success',

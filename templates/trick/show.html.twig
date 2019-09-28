@@ -9,8 +9,7 @@
             <h3><span class="slogan">{{ trick.titre }}</span></h3>
         </div>
     </div>
-</div>
-<div class="container my-5">
+
         <div class="row my-3">
 
             {% for image in trick.image %}
@@ -19,9 +18,6 @@
                 </div>
             {% endfor %}
 
-            <div class="col-3 mb-3">
-                <a href="#formulaire" id="newImage">Page ajax</a>
-            </div>
 
         </div>
         <div class="row">
@@ -93,42 +89,4 @@
 
 </div>
 
-    <div class="modal fade bs-example-modal-lg" id="fenetre" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-body" id="formulaire">
-                    {# Insertion du formulaire d'ajout d'image pour le trick #}
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-{% endblock %}
-
-{% block javascripts %}
-<script>
-
-    $( document ).ready(function() {
-        console.log( "ready!" );
-
-        const appel = $("#newImage");
-
-        appel.click(function(){
-            //Appel ajax et affiche la fenetre modal
-            $.ajax({
-                url: "{{ path('image_trick') }}",
-                data: {
-                    id: {{ trick.id }}
-                }
-                }).done(function(data){
-                    $("#formulaire").html(data);
-                    $('#fenetre').modal('show');
-            });
-
-        });
-    });
-
-
-</script>
 {% endblock %}

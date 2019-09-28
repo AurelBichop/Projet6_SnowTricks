@@ -5,16 +5,23 @@
 {% block body %}
     <div class="container my-5">
         <h1>Modifier {{ trick.titre }}</h1>
-        <div class="row">
-            <img src="{{ trick.coverImage }}" alt="image du trick {{ trick.titre }}" class="rounded img-fluid">
+        <div class="row trick-title" style="background-image: url({{ trick.coverImage }})">
         </div>
+
         <div class="row my-3">
 
-            {% for i in 1..4 %}
+            {% for image in trick.image %}
                 <div class="col-3 mb-3">
-                    <img src="http://lorempixel.com/200/200/sports" alt="image du trick {{ trick.titre }}" class="rounded img-fluid">
+                    <img src="{{ asset('uploads/images/') }}{{ image.url }}" alt="image {{ image.title }}" class="rounded img-fluid">
+                    <a href="{{ path('delete_image',{'id':image.id }) }}" onclick="return confirm('Voulez vous vraiment supprimer cette image')" class="float-right"><i class="far fa-trash-alt"></i></a>
                 </div>
             {% endfor %}
+
+            <div class="col-3 mb-3 text-center">
+                <h4>Ajouter une image</h4>
+                <a href="#formulaire" id="newImage"><i class="far fa-file-image fa-7x"></i></a>
+            </div>
+
         </div>
 
         {{ form_start(form) }}
@@ -30,6 +37,40 @@
 
     </div>
 
+    <div class="modal fade bs-example-modal-lg" id="fenetre" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body" id="formulaire">
+                    {# Insertion du formulaire d'ajout d'image pour le trick #}
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
+{% block javascripts %}
+    <script>
 
+        $( document ).ready(function() {
+            console.log( "ready!" );
+
+            const appel = $("#newImage");
+
+            appel.click(function(){
+                //Appel ajax et affiche la fenetre modal
+                $.ajax({
+                    url: "{{ path('image_trick') }}",
+                    data: {
+                        id: {{ trick.id }}
+                    }
+                }).done(function(data){
+                    $("#formulaire").html(data);
+                    $('#fenetre').modal('show');
+                });
+
+            });
+        });
+
+
+    </script>
+{% endblock %}
