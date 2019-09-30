@@ -17,12 +17,13 @@
                 </div>
             {% endfor %}
 
-            <div class="col-3 mb-3 text-center">
+            <div class="col-3 text-center">
                 <h4>Ajouter une image</h4>
-                <a href="#formulaire" id="newImage"><i class="far fa-file-image fa-7x"></i></a>
+                <a href="#formulaire" id="newImage"><i class="fas fa-plus-circle fa-5x mt-3"></i></a>
             </div>
 
         </div>
+
 
         {{ form_start(form) }}
 
@@ -48,22 +49,21 @@
     </div>
 
 {% endblock %}
+
 {% block javascripts %}
     <script>
 
         $( document ).ready(function() {
-            console.log( "ready!" );
 
             const appel = $("#newImage");
 
             appel.click(function(){
                 //Appel ajax et affiche la fenetre modal
                 $.ajax({
-                    url: "{{ path('image_trick') }}",
-                    data: {
-                        id: {{ trick.id }}
-                    }
+                    url: "{{ path('image_trick',{'slug':trick.slug }) }}",
+
                 }).done(function(data){
+
                     $("#formulaire").html(data);
                     $('#fenetre').modal('show');
                 });

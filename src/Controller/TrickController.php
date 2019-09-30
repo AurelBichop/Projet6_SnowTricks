@@ -70,7 +70,6 @@ class TrickController extends AbstractController
     }
 
 
-
     /**
      * Permet de d'afficher la liste de tout les tricks
      *
@@ -86,27 +85,25 @@ class TrickController extends AbstractController
         ]);
     }
 
+
     /**
      * Pour l'ajout d'une image a un trick
      *
+     * @Security("is_granted('ROLE_USER') and user === trick.getAuthor()")
      *
-     *
-     * @Route("/trick/image", name="image_trick")
+     * @Route("/trick/{slug}/image", name="image_trick")
      *
      * @param Request $request
-     * @param TrickRepository $trickRepository
+     * @param Trick $trick
      * @param ObjectManager $manager
      * @param FileUploader $fileUploader
      *
      * @return Response
      */
-    public function addImage(Request $request,TrickRepository $trickRepository,ObjectManager $manager, FileUploader $fileUploader){
+    public function addImage(Request $request,Trick $trick,ObjectManager $manager, FileUploader $fileUploader){
         //créer et afficher un formulaire image
         $image = new Image();
 
-        $idTrick = $request->query->get('id');
-
-        $trick = $trickRepository->findOneBy(['id'=>$idTrick]);
         $image->setTrick($trick);
 
         $formNewImage = $this->createForm(ImageType::class,$image);
@@ -133,7 +130,7 @@ class TrickController extends AbstractController
 
         return $this->render('image/new_image.html.twig', [
             'form' => $formNewImage->createView(),
-            'idTrick'=>$idTrick
+            'trick' =>$trick
         ]);
     }
 

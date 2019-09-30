@@ -25,6 +25,7 @@ class ImageType extends AbstractType
                             'mimeTypes' => [
                                 'image/jpeg'
                             ],
+                            'maxSizeMessage' =>'La limite de poid d\'une image est de 3mb',
                             'mimeTypesMessage' => 'Please upload a valid JPG document',
                         ])
                     ],

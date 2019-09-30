@@ -4,7 +4,7 @@
         <h1 class="my-3">Ajouter une Image</h1>
 
 
-        {{ form_start(form,{'action':'/trick/image?id=' ~ idTrick}) }}
+        {{ form_start(form,{'action':'/trick/'~trick.slug~'/image'}) }}
 
         {{ form_widget(form) }}
 
