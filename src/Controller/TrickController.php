@@ -5,11 +5,14 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\Trick;
+use App\Entity\Video;
 use App\Form\ImageType;
 use App\Form\TrickType;
+use App\Form\VideoType;
 use App\Repository\TrickRepository;
 use App\Service\FileUploader;
 use Doctrine\Common\Persistence\ObjectManager;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +20,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class TrickController extends AbstractController
 {
@@ -183,15 +187,34 @@ class TrickController extends AbstractController
      * @param Trick $trick
      * @param Request $request
      * @param ObjectManager $manager
+     * @param FileUploader $fileUploader
      * @return RedirectResponse|Response
+     * @throws Exception
      */
-    public function edit(Trick $trick, Request $request, ObjectManager $manager){
+    public function edit(Trick $trick, Request $request, ObjectManager $manager, FileUploader $fileUploader){
 
         $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            //ajoute la date de modification
+            $date = new \DateTime();
+            $trick->setModifiedAt($date);
+
+            //recupere le fichier de la request
+            $coverImage = $form['coverImage']->getData();
+
+            if($coverImage)
+            {
+                //Penser a supprimer l'ancienne image
+
+                //***********************************
+
+                $coverImage = $fileUploader->upload($coverImage);
+                $trick->setCoverImage($coverImage);
+            }
 
             $manager->persist($trick);
             $manager->flush();
@@ -234,4 +257,57 @@ class TrickController extends AbstractController
         return $this->redirectToRoute('accueil');
     }
 
+    /**
+     * Permet l'ajout d'une video
+     *
+     * @Route("/trick/{slug}/video", name="video_trick")
+     *
+     * @param Trick $trick
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return RedirectResponse
+     */
+    public function ajoutVideo(Trick $trick, Request $request, ObjectManager $manager){
+
+        $video = new Video();
+
+        $formVideo = $this->createForm(VideoType::class,$video);
+
+        $formVideo->handleRequest($request);
+
+        $video->setTrick($trick);
+
+        $manager->persist($video);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "Video ajouté"
+        );
+
+        return $this->redirectToRoute('edit_trick',["slug"=>$trick->getSlug()]);
+    }
+
+    /**
+     * Pour la supression d'une image de trick
+     *
+     * @Security("is_granted('ROLE_USER') and user === video.getTrick().getAuthor()")
+     *
+     * @Route("/trick/video/{id}/delete",name="delete_video")
+     * @param Video $video
+     * @param ObjectManager $manager
+     * @return RedirectResponse
+     */
+    public function deleteVideo(Video $video, ObjectManager $manager){
+
+        $manager->remove($video);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "La video à bien été supprimé"
+        );
+        return $this->redirectToRoute('edit_trick',["slug"=>$video->getTrick()->getSlug()]);
+
+    }
 }

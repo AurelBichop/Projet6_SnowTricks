@@ -17,9 +17,24 @@
                 </div>
             {% endfor %}
 
+
+            {% for video in trick.video %}
+                <div class="col-3 mb-3">
+                    {{ video.tag }}
+
+                    <a href="{{ path('delete_video',{'id':video.id }) }}" onclick="return confirm('Voulez vous vraiment supprimer cette video')" class="float-right"><i class="far fa-trash-alt"></i></a>
+                </div>
+            {% endfor %}
+
+
             <div class="col-3 text-center">
                 <h4>Ajouter une image</h4>
                 <a href="#formulaire" id="newImage"><i class="fas fa-plus-circle fa-5x mt-3"></i></a>
+            </div>
+
+            <div class="col-3 text-center">
+                <h4>Ajouter une Video</h4>
+                <a href="#formulaireVideo" id="newVideo"><i class="fas fa-video fa-5x mt-3"></i></a>
             </div>
 
         </div>
@@ -48,6 +63,32 @@
         </div>
     </div>
 
+
+    <div class="modal fade bs-example-modal-lg" id="fenetreVideo" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body" id="formulaireVideo">
+                    <form action="{{ path('video_trick', {'slug':trick.slug}) }}" name="video" method="post" enctype="multipart/form-data">
+
+                        <div class="form-group">
+                            <label for="video_title">Titre de la video</label>
+                            <input type="text" id="video_title" class="form-control" name="video[title]" required="required">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="video_tag">Url de la video</label>
+                            <input type="text" id="video_tag" class="form-control" name="video[tag]" required="required">
+                        </div>
+
+                        <button type="button" class="btn btn-info float-right" data-dismiss="modal">Retour</button>
+                        <button type="submit" class="btn btn-success float-right">Enregistrer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}
 
 {% block javascripts %}
@@ -55,20 +96,30 @@
 
         $( document ).ready(function() {
 
-            const appel = $("#newImage");
+            const ajoutImage = $("#newImage");
+            const ajoutVideo = $("#newVideo");
 
-            appel.click(function(){
-                //Appel ajax et affiche la fenetre modal
+            //Appel ajax pour l'ajout d'une image
+            ajoutImage.click(function(){
+
                 $.ajax({
                     url: "{{ path('image_trick',{'slug':trick.slug }) }}",
 
                 }).done(function(data){
 
+                    //Affiche la fenetre modal
                     $("#formulaire").html(data);
                     $('#fenetre').modal('show');
                 });
 
             });
+
+            //appel ajax pour l'ajout d'une video
+            ajoutVideo.click(function(){
+                $('#fenetreVideo').modal('show');
+            });
+
+
         });
 
 

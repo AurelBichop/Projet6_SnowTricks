@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="296abe6f-b62a-4013-9d6f-667967941fa7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/public/uploads/images/6. Vincent-Emilie-5d91deb796c19.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/VideoType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/TrickController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TrickController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ImageType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ImageType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/image/new_image.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/image/new_image.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/AppFixtures.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/trick/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trick/edit.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -198,7 +199,7 @@
       <workItem from="1569220797782" duration="11260000" />
       <workItem from="1569657906654" duration="27000" />
       <workItem from="1569657990905" duration="5910000" />
-      <workItem from="1569823679985" duration="8505000" />
+      <workItem from="1569823679985" duration="20658000" />
     </task>
     <servers />
   </component>
