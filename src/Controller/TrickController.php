@@ -3,14 +3,17 @@
 namespace App\Controller;
 
 
+use App\Entity\Comment;
 use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Video;
+use App\Form\CommentType;
 use App\Form\ImageType;
 use App\Form\TrickType;
 use App\Form\VideoType;
 use App\Repository\TrickRepository;
 use App\Service\FileUploader;
+use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -20,7 +23,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\DateTime;
+
 
 class TrickController extends AbstractController
 {
@@ -200,7 +203,7 @@ class TrickController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
 
             //ajoute la date de modification
-            $date = new \DateTime();
+            $date = new DateTime();
             $trick->setModifiedAt($date);
 
             //recupere le fichier de la request
@@ -309,5 +312,47 @@ class TrickController extends AbstractController
         );
         return $this->redirectToRoute('edit_trick',["slug"=>$video->getTrick()->getSlug()]);
 
+    }
+
+
+    /**
+     * Permet l'enregisterment d'un commentaire
+     *
+     * @IsGranted("ROLE_USER")
+     *
+     * @Route("/trick/{slug}/comment",name="add_comment")
+     *
+     * @param Trick $trick
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function addComment(Trick $trick, Request $request, ObjectManager $manager){
+
+        $comment = new Comment();
+
+        $formComment = $this->createForm(CommentType::class,$comment);
+
+        $formComment->handleRequest($request);
+        
+            $comment->setTrick($trick);
+            $comment->setUser($this->getUser());
+
+            $dateComment = new DateTime();
+            $comment->setCreatedAt($dateComment);
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Commentaire Ajouté"
+            );
+
+
+        return $this->redirectToRoute('show_trick',[
+            'slug'=>$trick->getSlug()
+        ]);
     }
 }

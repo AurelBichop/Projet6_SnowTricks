@@ -45,13 +45,13 @@
 
         {% if app.user %}
 
-            <form action="#" method="post">
+            <form action="{{ path('add_comment',{'slug':trick.slug }) }}" method="post">
 
                 <div class="row justify-content-center my-5">
 
 
                     <div class="col-8">
-                        <input type="text" id="comment" name="comment" class="form-control">
+                        <input type="text" id="comment_content" name="comment[content]" class="form-control">
                     </div>
 
                     <div class="col-2">
