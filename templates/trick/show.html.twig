@@ -38,29 +38,21 @@
             <div class="col text-center mb-3">
                 <span class="btn btn-warning">{{ trick.variety }}</span>
             </div>
-
         </div>
 
         <hr>
 
         {% if app.user %}
 
-            <form action="{{ path('add_comment',{'slug':trick.slug }) }}" method="post">
+            <div class="row">
+                <div class="col">
+                {{form_start(commentForm)}}
+                {{form_row(commentForm.content,{'label':'Commentaire','attr':{'placeholder': 'Votre commentaire...'}} ) }}
 
-                <div class="row justify-content-center my-5">
-
-
-                    <div class="col-8">
-                        <input type="text" id="comment_content" name="comment[content]" class="form-control">
-                    </div>
-
-                    <div class="col-2">
-                        <button type="submit" class="btn btn-primary"><label for="comment">Leave a comment</label></button>
-                    </div>
-
+                <button type="submit" class="btn btn-primary float-right">Commenter ! </button>
+                {{form_end(commentForm)}}
                 </div>
-
-            </form>
+            </div>
 
             <hr>
 
@@ -84,9 +76,20 @@
                 </div>
 
             </div>
+        {% else %}
+
+            <div class="row text-center">
+                <div class="col">
+                    <h2>Merci de vous connecter si vous souhaitez commenter</h2>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col">
+                    <a href="{{path('account_login')}}" class='btn btn-success'>vous connecter</a>
+                </div>
+            </div>
 
         {% endif %}
-
-</div>
+    </div>
 
 {% endblock %}

@@ -173,14 +173,48 @@ class TrickController extends AbstractController
      *
      * @Route("/trick/{slug}",name="show_trick")
      * @param Trick $trick
+     * @param Request $request
+     * @param ObjectManager $manager
      * @return Response
+     * @throws Exception
      */
-    public function show(Trick $trick){
+    public function show(Trick $trick, Request $request, ObjectManager $manager){
+
+        $comment = new Comment();
+
+        $formComment = $this->createForm(CommentType::class,$comment);
+
+        $formComment->handleRequest($request);
+
+        //si un commentaire est soumit
+        if($formComment->isSubmitted() && $formComment->isValid()) {
+
+            $comment->setTrick($trick);
+            $comment->setUser($this->getUser());
+
+            $dateComment = new DateTime();
+            $comment->setCreatedAt($dateComment);
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Commentaire Ajouté"
+            );
+
+            return $this->redirectToRoute('show_trick', [
+                'slug' => $trick->getSlug()
+            ]);
+        }
+
 
         return $this->render('trick/show.html.twig',[
             'trick' => $trick,
+            'commentForm' => $formComment->createView()
         ]);
     }
+
 
     /**
      * Permet la mise a jour d'un trick
@@ -252,7 +286,6 @@ class TrickController extends AbstractController
         $manager->remove($trick);
         $manager->flush();
 
-
         $this->addFlash(
             'success',
             "Le trick {$trick->getTitre()} à bien été supprimé"
@@ -314,45 +347,4 @@ class TrickController extends AbstractController
 
     }
 
-
-    /**
-     * Permet l'enregisterment d'un commentaire
-     *
-     * @IsGranted("ROLE_USER")
-     *
-     * @Route("/trick/{slug}/comment",name="add_comment")
-     *
-     * @param Trick $trick
-     * @param Request $request
-     * @param ObjectManager $manager
-     * @return RedirectResponse
-     * @throws Exception
-     */
-    public function addComment(Trick $trick, Request $request, ObjectManager $manager){
-
-        $comment = new Comment();
-
-        $formComment = $this->createForm(CommentType::class,$comment);
-
-        $formComment->handleRequest($request);
-        
-            $comment->setTrick($trick);
-            $comment->setUser($this->getUser());
-
-            $dateComment = new DateTime();
-            $comment->setCreatedAt($dateComment);
-
-            $manager->persist($comment);
-            $manager->flush();
-
-            $this->addFlash(
-                'success',
-                "Commentaire Ajouté"
-            );
-
-
-        return $this->redirectToRoute('show_trick',[
-            'slug'=>$trick->getSlug()
-        ]);
-    }
 }

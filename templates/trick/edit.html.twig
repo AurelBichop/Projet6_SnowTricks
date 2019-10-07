@@ -20,8 +20,7 @@
 
             {% for video in trick.video %}
                 <div class="col-3 mb-3">
-                    {{ video.tag }}
-
+                    {{ video.tag | raw }}
                     <a href="{{ path('delete_video',{'id':video.id }) }}" onclick="return confirm('Voulez vous vraiment supprimer cette video')" class="float-right"><i class="far fa-trash-alt"></i></a>
                 </div>
             {% endfor %}
