@@ -19,7 +19,7 @@ class Video
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $tag;
+    private $url;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -31,21 +31,11 @@ class Video
      */
     private $trick;
 
+
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTag(): ?string
-    {
-        return $this->tag;
-    }
-
-    public function setTag(string $tag): self
-    {
-        $this->tag = $tag;
-
-        return $this;
     }
 
     public function getTitle(): ?string
@@ -68,6 +58,18 @@ class Video
     public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
 
         return $this;
     }

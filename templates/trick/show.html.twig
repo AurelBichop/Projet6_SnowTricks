@@ -18,6 +18,17 @@
                 </div>
             {% endfor %}
 
+            {% for video in trick.video %}
+                <div class="col-3 mb-3 video">
+
+                    <embed type="video/webm"
+                           src="{{ video.url | raw }}"
+                           width="250"
+                           height="200"
+                           class="rounded" alt="{{ video.title | raw }}">
+
+                </div>
+            {% endfor %}
 
         </div>
         <div class="row">
@@ -47,7 +58,8 @@
             <div class="row">
                 <div class="col">
                 {{form_start(commentForm)}}
-                {{form_row(commentForm.content,{'label':'Commentaire','attr':{'placeholder': 'Votre commentaire...'}} ) }}
+
+                {{form_row(commentForm.content,{'label':'Commentaire','attr':{'placeholder': 'Votre commentaire...'}})}}
 
                 <button type="submit" class="btn btn-primary float-right">Commenter ! </button>
                 {{form_end(commentForm)}}
@@ -60,10 +72,11 @@
 
             <div class="row justify-content-center my-3">
                 <div class="col-1">
+                    {{ comment.user.firstname }}
                     <i class="fas fa-user-circle fa-3x"></i>
                 </div>
                 <div class="col-8">
-                    <div class="alert alert-info">{{ comment.content }}</div>
+                    <div class="alert alert-info">{{ comment.content | nl2br }}</div>
                 </div>
             </div>
 

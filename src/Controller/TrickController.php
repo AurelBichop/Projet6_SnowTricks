@@ -301,27 +301,29 @@ class TrickController extends AbstractController
      * @param Trick $trick
      * @param Request $request
      * @param ObjectManager $manager
-     * @return RedirectResponse
+     * @return Response
      */
-    public function ajoutVideo(Trick $trick, Request $request, ObjectManager $manager){
+    public function ajoutVideo(Trick $trick, Request $request, ObjectManager $manager):Response{
 
         $video = new Video();
 
-        $formVideo = $this->createForm(VideoType::class,$video);
-
-        $formVideo->handleRequest($request);
+        $video->setTitle($request->get("title"));
+        $video->setUrl($request->get("url"));
 
         $video->setTrick($trick);
 
         $manager->persist($video);
         $manager->flush();
 
-        $this->addFlash(
-            'success',
-            "Video ajouté"
-        );
 
-        return $this->redirectToRoute('edit_trick',["slug"=>$trick->getSlug()]);
+        return $this->json([
+            'code' => 200,
+            'message' => 'Video bien ajouté',
+            'lastVideoTitle'=>$video->getTitle(),
+            'lastVideoUrl'=>$video->getUrl()
+
+        ], 200);
+
     }
 
     /**

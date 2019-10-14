@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="296abe6f-b62a-4013-9d6f-667967941fa7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/public/uploads/images/1. Au feu! (2)-5da4204571f4e.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/uploads/images/1. Au feu! (2)-5da46f0a35442.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/uploads/images/1. Au feu! (2)-5da470e82c0f8.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20191014093020.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20191014093336.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/uploads/images/2. Ca fume!-5d91fb943c029.jpeg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/TrickController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TrickController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Comment.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Trick.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Trick.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Video.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Video.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/VideoType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/VideoType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/trick/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trick/edit.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/trick/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trick/show.html.twig" afterDir="false" />
     </list>
@@ -202,7 +208,9 @@
       <workItem from="1569823679985" duration="21560000" />
       <workItem from="1570260429113" duration="4233000" />
       <workItem from="1570267955826" duration="5000" />
-      <workItem from="1570430173897" duration="6740000" />
+      <workItem from="1570430173897" duration="8144000" />
+      <workItem from="1570554222563" duration="4397000" />
+      <workItem from="1571034224229" duration="12670000" />
     </task>
     <servers />
   </component>

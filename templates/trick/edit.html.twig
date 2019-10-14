@@ -19,12 +19,17 @@
 
 
             {% for video in trick.video %}
-                <div class="col-3 mb-3">
-                    {{ video.tag | raw }}
+                <div class="col-3 mb-3 video">
+
+                    <embed type="video/webm"
+                           src="{{ video.url | raw }}"
+                           width="250"
+                           height="200"
+                           class="rounded" alt="{{ video.title | raw }}">
+
                     <a href="{{ path('delete_video',{'id':video.id }) }}" onclick="return confirm('Voulez vous vraiment supprimer cette video')" class="float-right"><i class="far fa-trash-alt"></i></a>
                 </div>
             {% endfor %}
-
 
             <div class="col-3 text-center">
                 <h4>Ajouter une image</h4>
@@ -46,10 +51,6 @@
 
         <button type="submit" class="btn btn-primary float-right">Sauvegarder</button> <a href="{{ path('delete_trick',{'slug':trick.slug }) }}" onclick="return confirm('Voulez vous vraiment supprimer le Trick : {{ trick.titre }}')" class="btn btn-danger float-right">Supprimer</a>
         {{ form_end(form) }}
-
-
-
-
     </div>
 
     <div class="modal fade bs-example-modal-lg" id="fenetre" role="dialog" aria-hidden="true">
@@ -67,16 +68,16 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-body" id="formulaireVideo">
-                    <form action="{{ path('video_trick', {'slug':trick.slug}) }}" name="video" method="post" enctype="multipart/form-data">
+                    <form name="video" method="post" enctype="multipart/form-data">
 
                         <div class="form-group">
                             <label for="video_title">Titre de la video</label>
-                            <input type="text" id="video_title" class="form-control" name="video[title]" required="required">
+                            <input type="text" id="video_title" class="form-control" name="video_title" required="required">
                         </div>
 
                         <div class="form-group">
-                            <label for="video_tag">Url de la video</label>
-                            <input type="text" id="video_tag" class="form-control" name="video[tag]" required="required">
+                            <label for="video_url">Url de la video</label>
+                            <input type="text" id="video_url" class="form-control" name="video_url" required="required">
                         </div>
 
                         <button type="button" class="btn btn-info float-right" data-dismiss="modal">Retour</button>
@@ -113,10 +114,50 @@
 
             });
 
-            //appel ajax pour l'ajout d'une video
+            //Affiche le formulaire
             ajoutVideo.click(function(){
                 $('#fenetreVideo').modal('show');
+             });
+
+            //pour l'ajout d'une video Ajax
+            const form = $("form");
+            form[1].addEventListener('submit',function(e){
+
+                const title = form[1].elements.video_title.value;
+                const url = form[1].elements.video_url.value
+
+                e.preventDefault();
+                $.ajax({
+                    url: "{{ path('video_trick',{'slug':trick.slug }) }}",
+                    type: "POST",
+                    data: { "title": title,"url":url }
+
+                }).done(function(data){
+                    console.log(data);
+
+                    //recuperer l'emplacement
+                    var divPlace = document.getElementsByClassName('row');
+
+                    //creer la div
+                    const divVideo = document.createElement('div');
+                    const embedTag = document.createElement('embed');
+
+                    divVideo.className = 'col-3 mb-3 video';
+                    embedTag.type ="video/webm";
+                    embedTag.src = data["lastVideoUrl"];
+                    embedTag.width = "250";
+                    embedTag.height = "200";
+                    embedTag.alt = data["lastVideoTitle"];
+
+                    divVideo.appendChild(embedTag);
+                    divPlace[1].appendChild(divVideo);
+
+                    //cache la fenetre modal
+                    $('#fenetreVideo').modal('hide');
+                });
             });
+
+
 
 
         });
