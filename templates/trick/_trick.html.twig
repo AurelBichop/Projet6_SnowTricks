@@ -3,7 +3,11 @@
         <div class="mx-auto my-5">
             <div class="card border-info trick-card">
                 <div class="card-header">
-                    <img src="{{ trick.coverImage }}" alt="image du trick {{ trick.titre }}" class="rounded img-fluid">
+                    {% if trick.coverImage == "" %}
+                        <img src="{{ asset('imageTest/snowboard.jpg') }}" alt="image par default" class="rounded img-fluid">
+                    {% else %}
+                        <img src="{{ asset('uploads/images/') }}{{ trick.coverImage }}" alt="image du trick {{ trick.titre }}" class="rounded img-fluid">
+                    {% endif %}
                 </div>
                 <div class="card-body">
                     <div class="row">

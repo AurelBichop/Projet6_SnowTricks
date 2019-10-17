@@ -5,7 +5,11 @@
 {% block body %}
     <div class="container my-5">
         <h1>Modifier {{ trick.titre }}</h1>
-        <div class="row trick-title" style="background-image: url({{ trick.coverImage }})">
+        {% if trick.coverImage == ""  %}
+            <div class="row trick-title" style="background-image: url({{ asset('imageTest/snowboard.jpg') }})">
+        {% else %}
+            <div class="row trick-title" style="background-image: url({{ asset('uploads/images/') }}{{ trick.coverImage }})">
+        {% endif %}
         </div>
 
         <div class="row my-3">
@@ -53,11 +57,27 @@
         {{ form_end(form) }}
     </div>
 
-    <div class="modal fade bs-example-modal-lg" id="fenetre" role="dialog" aria-hidden="true">
+    <div class="modal fade bs-example-modal-lg" id="fenetreImage" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-body" id="formulaire">
-                    {# Insertion du formulaire d'ajout d'image pour le trick #}
+                <div class="modal-body" id="formulaireImage">
+                    <form name="image" method="post" enctype="multipart/form-data">
+
+                        <div class="form-group">
+                            <label for="image_title">Titre de l'image</label>
+                            <input type="text" id="image_title" class="form-control" name="image_title" required="required">
+                        </div>
+
+                        <div class="form-group">
+                            <div class="custom-file">
+                                <input type="file" id="image_url" class="custom-file-input" name="image_url" accept="image/png, image/jpeg" required="required">
+                                <label class="custom-file-label" for="image_url">choix du fichier</label>
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-info float-right" data-dismiss="modal">Retour</button>
+                        <button type="submit" class="btn btn-success float-right">Enregistrer</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -93,52 +113,73 @@
 
 {% block javascripts %}
     <script>
-
+        //attend que le DOM soit chargé
         $( document ).ready(function() {
 
+            //recupere tout les formulaires
+            const form = $("form");
+
+            /**
+             * Pour l'ajout des images
+             * */
             const ajoutImage = $("#newImage");
-            const ajoutVideo = $("#newVideo");
+            const formImage = form[1];
 
             //Appel ajax pour l'ajout d'une image
             ajoutImage.click(function(){
+                $('#fenetreImage').modal('show');
+            });
+
+            formImage.addEventListener('submit',function(e) {
+
+                const title = formImage.elements.image_title.value;
+                const url = formImage.elements.image_url.value;
+                e.preventDefault();
+
+                console.log(url);
 
                 $.ajax({
                     url: "{{ path('image_trick',{'slug':trick.slug }) }}",
+                    type: "POST",
+                    data: { "title": title,"url":url }
 
-                }).done(function(data){
-
-                    //Affiche la fenetre modal
-                    $("#formulaire").html(data);
-                    $('#fenetre').modal('show');
                 });
 
+                console.log(title);
             });
 
-            //Affiche le formulaire
+            /**
+             * Gestion de l'ajout de videos
+             *
+             * @type {jQuery.fn.init|jQuery|HTMLElement}
+             */
+            const ajoutVideo = $("#newVideo");
+            //Affiche la fenetre pour l'ajout d'une video
             ajoutVideo.click(function(){
                 $('#fenetreVideo').modal('show');
              });
 
             //pour l'ajout d'une video Ajax
-            const form = $("form");
-            form[1].addEventListener('submit',function(e){
+            const formVideo = form[2];
 
-                const title = form[1].elements.video_title.value;
-                const url = form[1].elements.video_url.value
+            //declanchement par le submit du formulaire
+            formVideo.addEventListener('submit',function(e){
+
+                const title = formVideo.elements.video_title.value;
+                const url = formVideo.elements.video_url.value;
 
                 e.preventDefault();
+
                 $.ajax({
                     url: "{{ path('video_trick',{'slug':trick.slug }) }}",
                     type: "POST",
                     data: { "title": title,"url":url }
 
                 }).done(function(data){
-                    console.log(data);
-
-                    //recuperer l'emplacement
+                    //console.log(data);
+                    //recupere l'emplacement
                     var divPlace = document.getElementsByClassName('row');
-
-                    //creer la div
+                    //Création des éléments du DOM
                     const divVideo = document.createElement('div');
                     const embedTag = document.createElement('embed');
 
@@ -156,12 +197,7 @@
                     $('#fenetreVideo').modal('hide');
                 });
             });
-
-
-
-
         });
-
-
     </script>
+
 {% endblock %}

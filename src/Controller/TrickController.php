@@ -98,7 +98,7 @@ class TrickController extends AbstractController
      *
      * @Security("is_granted('ROLE_USER') and user === trick.getAuthor()")
      *
-     * @Route("/trick/{slug}/image", name="image_trick")
+     * @Route("/trick/{slug}/image_old", name="old_image_trick")
      *
      * @param Request $request
      * @param Trick $trick
@@ -106,7 +106,7 @@ class TrickController extends AbstractController
      * @param FileUploader $fileUploader
      *
      * @return Response
-     */
+     *
     public function addImage(Request $request,Trick $trick,ObjectManager $manager, FileUploader $fileUploader){
         //créer et afficher un formulaire image
         $image = new Image();
@@ -140,6 +140,7 @@ class TrickController extends AbstractController
             'trick' =>$trick
         ]);
     }
+*/
 
     /**
      * Pour la supression d'une image de trick
@@ -296,6 +297,8 @@ class TrickController extends AbstractController
     /**
      * Permet l'ajout d'une video
      *
+     * @Security("is_granted('ROLE_USER') and user === trick.getAuthor()")
+     *
      * @Route("/trick/{slug}/video", name="video_trick")
      *
      * @param Trick $trick
@@ -321,6 +324,44 @@ class TrickController extends AbstractController
             'message' => 'Video bien ajouté',
             'lastVideoTitle'=>$video->getTitle(),
             'lastVideoUrl'=>$video->getUrl()
+
+        ], 200);
+
+    }
+
+
+    /**
+     * Permet l'ajout d'une Image
+     *
+     * @Security("is_granted('ROLE_USER') and user === trick.getAuthor()")
+     *
+     * @Route("/trick/{slug}/image", name="image_trick")
+     *
+     * @param Trick $trick
+     * @param Request $request
+     * @param ObjectManager $manager
+     * @param FileUploader $fileUploader
+     * @return Response
+     */
+    public function ajoutImage(Trick $trick, Request $request, ObjectManager $manager, FileUploader $fileUploader):Response{
+
+        $image = new Image();
+
+
+        $image->setTitle($request->get("title"));
+        $image->setUrl($request->get("url"));
+
+        $image->setTrick($trick);
+
+        $manager->persist($image);
+        $manager->flush();
+
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Image bien ajouté',
+            'lastVideoTitle'=>$image->getTitle(),
+            'lastVideoUrl'=>$image->getUrl()
 
         ], 200);
 
