@@ -1,5 +1,5 @@
 .banniere-accueil{
-    background-image: url("../imageTest/banniere.jpg");
+    background-image: url("../imageApp/banniere.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     height: 600px;
@@ -24,4 +24,9 @@ div.trick-title {
 
 .trick-card{
     max-width: 20rem;
+}
+
+.trick-picture{
+    height: 200px;
+    width: 300px;
 }

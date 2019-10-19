@@ -5,7 +5,7 @@
 {% block body %}
 <div class="container my-5">
     {% if trick.coverImage == ""  %}
-        <div class="row trick-title" style="background-image: url({{ asset('imageTest/snowboard.jpg') }})">
+        <div class="row trick-title" style="background-image: url({{ asset('imageApp/snowboard.jpg') }})">
     {% else %}
         <div class="row trick-title" style="background-image: url({{ asset('uploads/images/') }}{{ trick.coverImage }})">
     {% endif %}

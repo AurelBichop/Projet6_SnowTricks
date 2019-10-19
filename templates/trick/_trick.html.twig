@@ -4,16 +4,22 @@
             <div class="card border-info trick-card">
                 <div class="card-header">
                     {% if trick.coverImage == "" %}
-                        <img src="{{ asset('imageTest/snowboard.jpg') }}" alt="image par default" class="rounded img-fluid">
+                        <img src="{{ asset('imageApp/snowboard.jpg') }}" alt="image par default" class="rounded img-fluid trick-picture">
                     {% else %}
-                        <img src="{{ asset('uploads/images/') }}{{ trick.coverImage }}" alt="image du trick {{ trick.titre }}" class="rounded img-fluid">
+                        <img src="{{ asset('uploads/images/') }}{{ trick.coverImage }}" alt="image du trick {{ trick.titre }}" class="rounded img-fluid trick-picture">
                     {% endif %}
                 </div>
                 <div class="card-body">
+
                     <div class="row">
-                        <div class="col-8">
-                            <a href="{{ path('show_trick',{'slug':trick.slug }) }}"><h4 class="card-title">{{ trick.titre }}</h4></a>
-                        </div>
+
+                        {% if app.user and app.user == trick.author %}
+                            <div class="col-8">
+                        {% else %}
+                            <div class="col-12">
+                        {% endif %}
+                                <a href="{{ path('show_trick',{'slug':trick.slug }) }}"><h4 class="card-title text-center">{{ trick.titre }}</h4></a>
+                            </div>
 
                         {% if app.user and app.user == trick.author %}
                             <div class="col-2">

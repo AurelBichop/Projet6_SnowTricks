@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="296abe6f-b62a-4013-9d6f-667967941fa7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/imageTest/snowboard.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/images/1.Aufeu5da8a1c06b330.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TrickController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TrickController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/imageTest/banniere.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/imageApp/banniere.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/imageTest/snowboard.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/imageApp/snowboard.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/imageTest/sports.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/public/imageApp/sports.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/accueil.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/accueil.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/trick/_trick.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trick/_trick.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/trick/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trick/edit.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/trick/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trick/show.html.twig" afterDir="false" />
@@ -208,7 +210,8 @@
       <workItem from="1570554222563" duration="4397000" />
       <workItem from="1571034224229" duration="18786000" />
       <workItem from="1571247623428" duration="1591000" />
-      <workItem from="1571331403275" duration="2908000" />
+      <workItem from="1571331403275" duration="3270000" />
+      <workItem from="1571486628676" duration="1034000" />
     </task>
     <servers />
   </component>
