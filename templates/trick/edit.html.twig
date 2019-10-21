@@ -71,7 +71,7 @@
                         <div class="form-group">
                             <div class="custom-file">
                                 <input type="file" id="url" class="custom-file-input" name="url" accept="image/png, image/jpeg" required="required">
-                                <label class="custom-file-label" for="url">choix du fichier</label>
+                                <label class="custom-file-label" for="url"></label>
                             </div>
                         </div>
 
@@ -116,23 +116,35 @@
         $( document ).ready(function() {
 
             //Pour inserer le nom de la cover image
-            const fileInput = $(".custom-file-input");
+            const fileInputCover = $("#trick_coverImage");
+            const imageTrick = $("#url");
             const labelInput = $(".custom-file-label");
-            labelInput[0].innerHTML = 'Aucun fichier Slectionné';
 
-            fileInput.change(function () {
+            //initialise le texte des labels
+            labelInput.each(function () {
+               this.textContent =  'Aucun fichier Slectionné';
+            });
+
+            fileInputCover.change(function () {
                 //initialise le contenu
                 labelInput[0].innerHTML = '';
-                let labb = document.createElement('label');
-                labb.textContent = fileInput[0].files[0].name;
-
+                let labb = document.createElement('span');
+                labb.textContent = this.files[0].name;
                 labelInput[0].append(labb);
+            });
+
+            imageTrick.change(function () {
+                //initialise le contenu
+                labelInput[1].innerHTML = '';
+                let labb = document.createElement('span');
+                labb.textContent = this.files[0].name;
+                labelInput[1].append(labb);
             });
             //**********************************************
 
+
             //recupere tout les formulaires
             const form = $("form");
-
             /**
              * Pour l'ajout des images
              * */
@@ -146,20 +158,28 @@
 
             formImage.addEventListener('submit',function(e) {
 
-                const title = formImage.elements.image_title.value;
-                const url = formImage.elements.url.value;
                 e.preventDefault();
 
-                console.log(url);
+                const title = formImage.elements.image_title.value;
+                const imageTrick = document.getElementById("url").files[0];
+
+                let formData = new FormData();
+
+                formData.append("title", title);
+                formData.append("url", imageTrick);
 
                 $.ajax({
                     url: "{{ path('image_trick',{'slug':trick.slug }) }}",
                     type: "POST",
-                    data: { "title": title,"url":url }
+                    data: formData,
+                    dataType	: 'json',
+                    processData: false,
+                    contentType: false
 
+                }).done(function(){
+                    $('#fenetreImage').modal('hide');
                 });
 
-                console.log(title);
             });
 
             /**

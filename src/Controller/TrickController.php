@@ -248,7 +248,9 @@ class TrickController extends AbstractController
             if($coverImage)
             {
                 //supprime l'ancienne image
-                unlink('uploads/images/'.$trick->getCoverImage());
+                if($trick->getCoverImage()){
+                    unlink('uploads/images/'.$trick->getCoverImage());
+                }
 
                 //charge la nouvelle image
                 $coverImageName = $fileUploader->upload($coverImage);
@@ -347,18 +349,12 @@ class TrickController extends AbstractController
     public function ajoutImage(Trick $trick, Request $request, ObjectManager $manager, FileUploader $fileUploader){
 
         $image = new Image();
-        $form = $this->createForm(ImageType::class, $image);
-
-        $form->handleRequest($request);
-
         //recuperer le fichier de la request c'est ici le pb
-        $fileImage = $form['url']->getData();
+        $fileImage = $request->files->get('url');
+        $imageName = $fileUploader->upload($fileImage);
 
-        dump($request);
-        die();
-
-        $imageFom = $fileUploader->upload($fileImage);
-        $image->setUrl($imageFom);
+        $image->setTitle($request->get('title'));
+        $image->setUrl($imageName);
 
         $image->setTrick($trick);
 
