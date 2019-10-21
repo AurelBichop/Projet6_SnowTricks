@@ -23,10 +23,17 @@ div.trick-title {
 }
 
 .trick-card{
-    max-width: 20rem;
+    width: 20rem;
+    height: 20rem;
+
 }
 
 .trick-picture{
     height: 200px;
     width: 300px;
+}
+
+/* Pour le label du input file */
+.custom-file-label::after{
+    content: "Parcourir";
 }

@@ -31,7 +31,7 @@ class TrickType extends AppType
             ->add('coverImage',FileType::class,[
                 'label'=>'Image de fond',
                 'mapped' => false,
-                'required' => true,
+                'required' => false,
                  'constraints' => [
                         new File([
                             'maxSize' => '3000k',

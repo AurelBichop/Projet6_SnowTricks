@@ -70,8 +70,8 @@
 
                         <div class="form-group">
                             <div class="custom-file">
-                                <input type="file" id="image_url" class="custom-file-input" name="image_url" accept="image/png, image/jpeg" required="required">
-                                <label class="custom-file-label" for="image_url">choix du fichier</label>
+                                <input type="file" id="url" class="custom-file-input" name="url" accept="image/png, image/jpeg" required="required">
+                                <label class="custom-file-label" for="url">choix du fichier</label>
                             </div>
                         </div>
 
@@ -107,14 +107,28 @@
             </div>
         </div>
     </div>
-
-
+</div>
 {% endblock %}
 
 {% block javascripts %}
     <script>
         //attend que le DOM soit chargé
         $( document ).ready(function() {
+
+            //Pour inserer le nom de la cover image
+            const fileInput = $(".custom-file-input");
+            const labelInput = $(".custom-file-label");
+            labelInput[0].innerHTML = 'Aucun fichier Slectionné';
+
+            fileInput.change(function () {
+                //initialise le contenu
+                labelInput[0].innerHTML = '';
+                let labb = document.createElement('label');
+                labb.textContent = fileInput[0].files[0].name;
+
+                labelInput[0].append(labb);
+            });
+            //**********************************************
 
             //recupere tout les formulaires
             const form = $("form");
@@ -133,7 +147,7 @@
             formImage.addEventListener('submit',function(e) {
 
                 const title = formImage.elements.image_title.value;
-                const url = formImage.elements.image_url.value;
+                const url = formImage.elements.url.value;
                 e.preventDefault();
 
                 console.log(url);

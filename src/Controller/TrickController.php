@@ -19,6 +19,7 @@ use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -246,12 +247,12 @@ class TrickController extends AbstractController
 
             if($coverImage)
             {
-                //Penser a supprimer l'ancienne image
+                //supprime l'ancienne image
+                unlink('uploads/images/'.$trick->getCoverImage());
 
-                //***********************************
-
-                $coverImage = $fileUploader->upload($coverImage);
-                $trick->setCoverImage($coverImage);
+                //charge la nouvelle image
+                $coverImageName = $fileUploader->upload($coverImage);
+                $trick->setCoverImage($coverImageName);
             }
 
             $manager->persist($trick);
@@ -343,19 +344,26 @@ class TrickController extends AbstractController
      * @param FileUploader $fileUploader
      * @return Response
      */
-    public function ajoutImage(Trick $trick, Request $request, ObjectManager $manager, FileUploader $fileUploader):Response{
+    public function ajoutImage(Trick $trick, Request $request, ObjectManager $manager, FileUploader $fileUploader){
 
         $image = new Image();
+        $form = $this->createForm(ImageType::class, $image);
 
+        $form->handleRequest($request);
 
-        $image->setTitle($request->get("title"));
-        $image->setUrl($request->get("url"));
+        //recuperer le fichier de la request c'est ici le pb
+        $fileImage = $form['url']->getData();
+
+        dump($request);
+        die();
+
+        $imageFom = $fileUploader->upload($fileImage);
+        $image->setUrl($imageFom);
 
         $image->setTrick($trick);
 
         $manager->persist($image);
         $manager->flush();
-
 
         return $this->json([
             'code' => 200,
