@@ -20,10 +20,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Debug\Debug;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 
 class TrickController extends AbstractController
@@ -93,7 +95,35 @@ class TrickController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/trick/more",name="more_tricks")
+     * @param TrickRepository $trickRepository
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function loadMore(TrickRepository $trickRepository, Request $request){
 
+        $depart = (int)$request->get('nbCard');
+        $nbEnplus = 10;
+
+        $listeMoreTrick = $trickRepository->findBy(
+            array(),
+            array('id'=>'DESC'),
+            $limit = $depart,
+            $offset = ($nbEnplus+(int)$depart)
+        );
+
+        $datas = [];
+        foreach ( $listeMoreTrick as $key => $item) {
+            $datas[$key]['titre'] = $item->getTitre();
+            $datas[$key]['slug'] = $item->getSlug();
+            $datas[$key]['author'] = $item->getAuthor()->getFullname();
+            $datas[$key]['coverImage'] = $item->getCoverImage();
+        }
+
+    return new JsonResponse($datas);
+
+    }
     /**
      * Pour l'ajout d'une image a un trick
      *
@@ -321,7 +351,6 @@ class TrickController extends AbstractController
         $manager->persist($video);
         $manager->flush();
 
-
         return $this->json([
             'code' => 200,
             'message' => 'Video bien ajouté',
@@ -393,5 +422,4 @@ class TrickController extends AbstractController
         return $this->redirectToRoute('edit_trick',["slug"=>$video->getTrick()->getSlug()]);
 
     }
-
 }

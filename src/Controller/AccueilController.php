@@ -21,9 +21,13 @@ class AccueilController extends AbstractController
      */
     public function index(TrickRepository $trickRepository)
     {
-
         return $this->render('accueil.html.twig', [
-            'tricks' => $trickRepository->findAll()
+
+            'tricks' => $trickRepository->findBy(
+                array(),
+                array('id'=>'DESC'),
+                10
+            )
         ]);
     }
 
