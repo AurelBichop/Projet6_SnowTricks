@@ -25,6 +25,7 @@ class AccountUserController extends AbstractController
      * Permet d'afficher et gerer le formulaire de connection
      *
      * @Route("/login", name="account_login")
+     * @param AuthenticationUtils $utils
      * @return Response
      */
     public function login(AuthenticationUtils $utils)
@@ -81,6 +82,7 @@ class AccountUserController extends AbstractController
             $mailer->send($message);
 
             //*********************************************************************
+
 
 
             $this->addFlash(

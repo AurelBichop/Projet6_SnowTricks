@@ -4,20 +4,36 @@
 
 {% block body %}
 <div class="container my-5">
-    <div class="row trick-title" style="background-image: url({{ trick.coverImage }})">
+    {% if trick.coverImage == ""  %}
+        <div class="row trick-title" style="background-image: url({{ asset('imageApp/snowboard.jpg') }})">
+    {% else %}
+        <div class="row trick-title" style="background-image: url({{ asset('uploads/images/') }}{{ trick.coverImage }})">
+    {% endif %}
         <div class="col text-center align-self-center">
             <h3><span class="slogan">{{ trick.titre }}</span></h3>
         </div>
     </div>
-</div>
-<div class="container my-5">
+
         <div class="row my-3">
 
             {% for image in trick.image %}
                 <div class="col-3 mb-3">
-                    <img src="{{ image.url }}" alt="image {{ image.title }}" class="rounded img-fluid">
+                    <img src="{{ asset('uploads/images/') }}{{ image.url }}" alt="image {{ image.title }}" class="rounded img-fluid">
                 </div>
             {% endfor %}
+
+            {% for video in trick.video %}
+                <div class="col-3 mb-3 video">
+
+                    <embed type="video/webm"
+                           src="{{ video.url | raw }}"
+                           width="250"
+                           height="200"
+                           class="rounded" alt="{{ video.title | raw }}">
+
+                </div>
+            {% endfor %}
+
         </div>
         <div class="row">
             <div class="col">
@@ -37,29 +53,22 @@
             <div class="col text-center mb-3">
                 <span class="btn btn-warning">{{ trick.variety }}</span>
             </div>
-
         </div>
 
         <hr>
 
         {% if app.user %}
 
-            <form action="#" method="post">
+            <div class="row">
+                <div class="col">
+                {{form_start(commentForm)}}
 
-                <div class="row justify-content-center my-5">
+                {{form_row(commentForm.content,{'label':'Commentaire','attr':{'placeholder': 'Votre commentaire...'}})}}
 
-
-                    <div class="col-8">
-                        <input type="text" id="comment" name="comment" class="form-control">
-                    </div>
-
-                    <div class="col-2">
-                        <button type="submit" class="btn btn-primary"><label for="comment">Leave a comment</label></button>
-                    </div>
-
+                <button type="submit" class="btn btn-primary float-right">Commenter ! </button>
+                {{form_end(commentForm)}}
                 </div>
-
-            </form>
+            </div>
 
             <hr>
 
@@ -67,10 +76,11 @@
 
             <div class="row justify-content-center my-3">
                 <div class="col-1">
+                    {{ comment.user.firstname }}
                     <i class="fas fa-user-circle fa-3x"></i>
                 </div>
                 <div class="col-8">
-                    <div class="alert alert-info">{{ comment.content }}</div>
+                    <div class="alert alert-info">{{ comment.content | nl2br }}</div>
                 </div>
             </div>
 
@@ -83,11 +93,20 @@
                 </div>
 
             </div>
+        {% else %}
+
+            <div class="row text-center">
+                <div class="col">
+                    <h2>Merci de vous connecter si vous souhaitez commenter</h2>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col">
+                    <a href="{{path('account_login')}}" class='btn btn-success'>vous connecter</a>
+                </div>
+            </div>
 
         {% endif %}
-
-</div>
-
+    </div>
 
 {% endblock %}
-
