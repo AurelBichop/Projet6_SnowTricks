@@ -45,10 +45,6 @@ class Trick
      */
     private $slug;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $variety;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick", orphanRemoval=true)
@@ -56,7 +52,7 @@ class Trick
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick")
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", orphanRemoval=true)
      */
     private $video;
 
@@ -85,6 +81,11 @@ class Trick
      * @ORM\Column(type="string", length=255)
      */
     private $coverImage;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Variety", inversedBy="trick")
+     */
+    private $variety;
 
 
     public function __construct()
@@ -169,17 +170,6 @@ class Trick
         return $this;
     }
 
-    public function getVariety(): ?string
-    {
-        return $this->variety;
-    }
-
-    public function setVariety(string $variety): self
-    {
-        $this->variety = $variety;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Image[]
@@ -318,6 +308,18 @@ class Trick
     public function setCoverImage(string $coverImage): self
     {
         $this->coverImage = $coverImage;
+
+        return $this;
+    }
+
+    public function getVariety(): ?Variety
+    {
+        return $this->variety;
+    }
+
+    public function setVariety(?Variety $variety): self
+    {
+        $this->variety = $variety;
 
         return $this;
     }
