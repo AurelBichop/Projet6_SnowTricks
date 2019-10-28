@@ -2,11 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="296abe6f-b62a-4013-9d6f-667967941fa7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/public/imageApp/ajax-loader.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/uploads/images/5db6c0067ea00.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/AccueilController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AccueilController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/TrickController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TrickController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/accueil.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/accueil.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/trick/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trick/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/trick/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/trick/new.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -155,6 +158,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\aurel\Desktop\PROJET 6\Projet6_SnowTricks\public\imageApp" />
       <recent name="C:\Users\aurel\Desktop\PROJET 6\Projet6_SnowTricks\public\imageTest" />
       <recent name="C:\Users\aurel\Desktop\PROJET 6\Projet6_SnowTricks\templates\image" />
       <recent name="C:\Users\aurel\Desktop\PROJET 6\Projet6_SnowTricks\public\js" />
@@ -208,7 +212,10 @@
       <workItem from="1571247623428" duration="1591000" />
       <workItem from="1571331403275" duration="3270000" />
       <workItem from="1571486628676" duration="5440000" />
-      <workItem from="1571639088407" duration="28295000" />
+      <workItem from="1571639088407" duration="28666000" />
+      <workItem from="1572035435328" duration="755000" />
+      <workItem from="1572189800260" duration="7000" />
+      <workItem from="1572247942663" duration="14502000" />
     </task>
     <servers />
   </component>

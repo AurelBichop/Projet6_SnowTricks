@@ -17,17 +17,20 @@ class AccueilController extends AbstractController
      *
      * @Route("/", name="accueil")
      * @param TrickRepository $trickRepository
+     * @param ObjectManager $manager
      * @return Response
      */
-    public function index(TrickRepository $trickRepository)
+    public function index(TrickRepository $trickRepository ,ObjectManager $manager)
     {
+
         return $this->render('accueil.html.twig', [
 
             'tricks' => $trickRepository->findBy(
                 array(),
                 array('id'=>'DESC'),
                 10
-            )
+            ),
+            'nbTricks'=>$manager->createQuery('SELECT COUNT(t) FROM App\Entity\Trick t')->getSingleScalarResult()
         ]);
     }
 

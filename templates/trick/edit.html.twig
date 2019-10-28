@@ -176,7 +176,34 @@
                     processData: false,
                     contentType: false
 
-                }).done(function(){
+                }).done(function(data){
+
+                    //console.log(data);
+                    //recupere l'emplacement
+                    let divPlaceImage = document.getElementsByClassName('row');
+                    //Création des éléments du DOM
+                    const divImage = document.createElement('div');
+                    const imageTag = document.createElement('img');
+                    const delImageTag = document.createElement('a');
+                    const iconeDel = document.createElement('i');
+
+                    divImage.className = 'col-3 mb-3 video';
+
+                    imageTag.src = "{{ asset('uploads/images/') }}"+data["lastImageUrl"];
+                    imageTag.alt='image '+data["lastImageTitle"];
+                    imageTag.className ='rounded img-fluid';
+
+                    iconeDel.className="far fa-trash-alt";
+
+                    delImageTag.href = '/trick/image/'+data["lastImageId"]+'/delete';
+                    delImageTag.className = "float-right";
+
+
+                    delImageTag.appendChild(iconeDel);
+                    divImage.appendChild(imageTag);
+                    divImage.appendChild(delImageTag);
+                    divPlaceImage[1].appendChild(divImage);
+
                     $('#fenetreImage').modal('hide');
                 });
 
@@ -212,10 +239,13 @@
                 }).done(function(data){
                     //console.log(data);
                     //recupere l'emplacement
-                    var divPlace = document.getElementsByClassName('row');
+                    let divPlace = document.getElementsByClassName('row');
                     //Création des éléments du DOM
                     const divVideo = document.createElement('div');
                     const embedTag = document.createElement('embed');
+
+                    const delVideoTag = document.createElement('a');
+                    const iconeDelVideo = document.createElement('i');
 
                     divVideo.className = 'col-3 mb-3 video';
                     embedTag.type ="video/webm";
@@ -223,8 +253,16 @@
                     embedTag.width = "250";
                     embedTag.height = "200";
                     embedTag.alt = data["lastVideoTitle"];
+                    embedTag.className = "rounded";
 
+                    iconeDelVideo.className="far fa-trash-alt";
+
+                    delVideoTag.href = '/trick/video/'+data["lastVideoId"]+'/delete';
+                    delVideoTag.className = "float-right";
+
+                    delVideoTag.appendChild(iconeDelVideo);
                     divVideo.appendChild(embedTag);
+                    divVideo.appendChild(delVideoTag);
                     divPlace[1].appendChild(divVideo);
 
                     //cache la fenetre modal

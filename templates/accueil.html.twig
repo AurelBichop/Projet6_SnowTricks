@@ -12,30 +12,12 @@
         <a href="#footer" class="btn btn-primary float-right mt-1"><i class="fas fa-arrow-down"></i></a>
 
 
-{#
-        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="imageApp/banniere.jpg" class="d-block w-100 img-fluid rounded" alt="banniere du site">
-
-                    <div class="carousel-caption">
-                        <h1>Tricks for the life, for the good time, we like that</h1>
-
-                    </div>
-                    <a href="#footer" class="btn btn-primary float-right mt-1"><i class="fas fa-arrow-down"></i></a>
-
-                </div>
-            </div>
-        </div>
-
-#}
-
         {% include "/trick/_trick.html.twig" %}
 
-        <div class="row">
+        <div class="row" id="loadMoreDiv">
 
             <div class="card offset-md-5 col-md-2 offset-md-5">
-                <a href="#"><div id="loadMore" class="card-body text-center"><i class="fas fa-spinner"></i> Load more</div></a>
+                <a href="#"><div id="loadMore" class="card-body text-center"> <img id="ajax-loading" src="{{ asset('imageApp/ajax-loader.gif') }}" alt="Loading" /> Load more</div></a>
             </div>
 
         </div>
@@ -49,11 +31,18 @@
     <script>
     //attend que le DOM soit chargé
         $( document ).ready(function(){
+            //nombre de tricks affiché
             const loadMore = $("#loadMore");
+            const loadMoreDiv = $("#loadMoreDiv");
+            const nbTrick = parseInt("{{ nbTricks }}");
+            let nbTotalCard;//total de cards
+
+            $('#ajax-loading').hide(); // On masque le gif au chargement de la page
 
             loadMore.click(function(e){
-
+                $('#ajax-loading').show();// On montre le gif pour le chargement des tricks
                 let nbCard = $(".card.border-info.trick-card").length;
+
                 e.preventDefault();
                 $.ajax({
                     url: "{{ path('more_tricks') }}",
@@ -112,10 +101,20 @@
                         div.append(divBody);
                         divAuto.append(div);
                         placeToInsert.append(divAuto);
+
+                        //****Verifie le total pour supprimer le bouton load more
+                        nbTotalCard = nbCard + data.length;
+
+                        if (nbTotalCard === nbTrick){
+                            loadMoreDiv.remove();
+                        }
                     }
+
+                    $('#ajax-loading').hide(); // On masque le gif
                 });
 
             });
+
         });
     </script>
 

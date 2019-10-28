@@ -8,9 +8,7 @@ use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Video;
 use App\Form\CommentType;
-use App\Form\ImageType;
 use App\Form\TrickType;
-use App\Form\VideoType;
 use App\Repository\TrickRepository;
 use App\Service\FileUploader;
 use DateTime;
@@ -19,13 +17,12 @@ use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
+
 
 
 class TrickController extends AbstractController
@@ -91,7 +88,10 @@ class TrickController extends AbstractController
     public function index(TrickRepository $repository){
 
         return $this->render('trick/index.html.twig',[
-            'tricks' => $repository->findAll()
+            'tricks' => $repository->findBy(
+                array(),
+                array('id'=>'DESC')
+            )
         ]);
     }
 
@@ -106,12 +106,15 @@ class TrickController extends AbstractController
         $depart = (int)$request->get('nbCard');
         $nbEnplus = 10;
 
+        //sleep(5);
+
         $listeMoreTrick = $trickRepository->findBy(
             array(),
             array('id'=>'DESC'),
-            $limit = $depart,
-            $offset = ($nbEnplus+(int)$depart)
+            $limit = $nbEnplus,
+            $offset = $depart
         );
+
 
         $datas = [];
         foreach ( $listeMoreTrick as $key => $item) {
@@ -119,59 +122,12 @@ class TrickController extends AbstractController
             $datas[$key]['slug'] = $item->getSlug();
             $datas[$key]['author'] = $item->getAuthor()->getFullname();
             $datas[$key]['coverImage'] = $item->getCoverImage();
+            $datas[$key]['id'] = $item->getId();
         }
 
     return new JsonResponse($datas);
 
     }
-    /**
-     * Pour l'ajout d'une image a un trick
-     *
-     * @Security("is_granted('ROLE_USER') and user === trick.getAuthor()")
-     *
-     * @Route("/trick/{slug}/image_old", name="old_image_trick")
-     *
-     * @param Request $request
-     * @param Trick $trick
-     * @param ObjectManager $manager
-     * @param FileUploader $fileUploader
-     *
-     * @return Response
-     *
-    public function addImage(Request $request,Trick $trick,ObjectManager $manager, FileUploader $fileUploader){
-        //créer et afficher un formulaire image
-        $image = new Image();
-
-        $image->setTrick($trick);
-
-        $formNewImage = $this->createForm(ImageType::class,$image);
-        $formNewImage->handleRequest($request);
-
-        if($formNewImage->isSubmitted() && $formNewImage->isValid()){
-
-            //recupere le fichier de la request
-            $formImage = $formNewImage['url']->getData();
-
-            $formImage = $fileUploader->upload($formImage);
-
-            $image->setUrl($formImage);
-
-            $manager->persist($image);
-            $manager->flush();
-
-            $this->addFlash(
-                'info',
-                "L'image a bien été ajouté"
-            );
-            return $this->redirectToRoute('edit_trick',["slug"=>$trick->getSlug()]);
-        }
-
-        return $this->render('image/new_image.html.twig', [
-            'form' => $formNewImage->createView(),
-            'trick' =>$trick
-        ]);
-    }
-*/
 
     /**
      * Pour la supression d'une image de trick
@@ -239,7 +195,6 @@ class TrickController extends AbstractController
                 'slug' => $trick->getSlug()
             ]);
         }
-
 
         return $this->render('trick/show.html.twig',[
             'trick' => $trick,
@@ -355,6 +310,7 @@ class TrickController extends AbstractController
             'code' => 200,
             'message' => 'Video bien ajouté',
             'lastVideoTitle'=>$video->getTitle(),
+            'lastVideoId'=>$video->getId(),
             'lastVideoUrl'=>$video->getUrl()
 
         ], 200);
@@ -378,7 +334,8 @@ class TrickController extends AbstractController
     public function ajoutImage(Trick $trick, Request $request, ObjectManager $manager, FileUploader $fileUploader){
 
         $image = new Image();
-        //recuperer le fichier de la request c'est ici le pb
+
+        //recuperer le fichier de la request
         $fileImage = $request->files->get('url');
         $imageName = $fileUploader->upload($fileImage);
 
@@ -393,8 +350,9 @@ class TrickController extends AbstractController
         return $this->json([
             'code' => 200,
             'message' => 'Image bien ajouté',
-            'lastVideoTitle'=>$image->getTitle(),
-            'lastVideoUrl'=>$image->getUrl()
+            'lastImageTitle'=>$image->getTitle(),
+            'lastImageId'=>$image->getId(),
+            'lastImageUrl'=>$image->getUrl()
 
         ], 200);
 

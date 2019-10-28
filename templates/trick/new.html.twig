@@ -16,3 +16,30 @@
         <br>
 </div>
 {% endblock %}
+
+{% block javascripts %}
+        <script>
+                //attend que le DOM soit chargé
+                $( document ).ready(function() {
+                //Pour inserer le nom de la cover image
+                        const fileInputCover = $("#trick_coverImage");
+                        const labelInput = $(".custom-file-label");
+
+                        //initialise le texte des labels
+                        labelInput.each(function () {
+                                this.textContent = 'Aucun fichier Slectionné';
+                        });
+
+                        fileInputCover.change(function () {
+                                //initialise le contenu
+                                labelInput[0].innerHTML = '';
+                                let labb = document.createElement('span');
+                                labb.textContent = this.files[0].name;
+                                labelInput[0].append(labb);
+                        });
+
+                });
+
+        </script>
+
+{% endblock %}
