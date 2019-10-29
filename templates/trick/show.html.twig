@@ -74,12 +74,12 @@
 
             {% for comment in trick.comment | reverse %}
 
-            <div class="row justify-content-center my-3">
-                <div class="col-1">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-1 col-sm-2 col-2">
                     {{ comment.user.firstname }}
                     <i class="fas fa-user-circle fa-3x"></i>
                 </div>
-                <div class="col-8">
+                <div class="col-md-8 col-sm-8 col-8">
                     <small> Le {{ comment.createdAt | date('d/m/Y') }} :</small>
                     <div class="alert alert-info">{{ comment.content | nl2br }}</div>
                 </div>
@@ -87,7 +87,7 @@
 
             {% endfor %}
 
-            <div class="row">
+            <div class="row mt-5">
 
                 <div class="card offset-md-5 col-md-2 offset-md-5">
                     <div class="card-body text-center"><i class="fas fa-spinner"></i> Load more</div>
