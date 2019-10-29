@@ -11,6 +11,7 @@ use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use App\Service\FileUploader;
+use App\Service\Pagination;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
@@ -80,18 +81,22 @@ class TrickController extends AbstractController
     /**
      * Permet de d'afficher la liste de tout les tricks
      *
-     * @Route("/trick/all",name="all_trick")
+     * @Route("/trick/all/{page<\d+>?1}",name="all_trick")
      *
-     * @param TrickRepository $repository
+     * @param $page
+     * @param Pagination $pagination
+     *
      * @return Response
      */
-    public function index(TrickRepository $repository){
+    public function index($page, Pagination $pagination){
+
+        $pagination->setEntityClass(Trick::class)
+            ->setPage($page)
+            ->setLimit(20);
 
         return $this->render('trick/index.html.twig',[
-            'tricks' => $repository->findBy(
-                array(),
-                array('id'=>'DESC')
-            )
+                'pagination' => $pagination
+
         ]);
     }
 

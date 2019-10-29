@@ -1,4 +1,9 @@
 <div class="row mx-3">
+
+    {% if pagination.data is defined %}
+        {% set tricks = pagination.data %}
+    {% endif %}
+
     {% for trick in tricks %}
         <div class="mx-auto my-5">
             <div class="card border-info trick-card">
