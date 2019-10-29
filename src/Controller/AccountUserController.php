@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\ResetPassword;
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Form\ResetPasswordType;
 use App\Form\UserAccountType;
 use App\Repository\UserRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -71,8 +73,7 @@ class AccountUserController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
-
-            // Create a message ***************************************************
+            // Create a message an send email ***************************************************
 
             $message = (new Swift_Message('Validation de votre inscription'))
                 ->setFrom('aurel.bichop@laposte.net')
@@ -82,8 +83,6 @@ class AccountUserController extends AbstractController
             $mailer->send($message);
 
             //*********************************************************************
-
-
 
             $this->addFlash(
                 'info',
@@ -169,4 +168,90 @@ class AccountUserController extends AbstractController
         return $this->redirectToRoute('account_login');
     }
 
+    /**
+     * Permet de rénitialiser son mot de passe en cas d'oublie
+     *
+     * @Route("/forgotpass", name="forgot_password")
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @param Swift_Mailer $mailer
+     * @return Response
+     */
+    public function forgotPassword(Request $request, UserRepository $userRepository, Swift_Mailer $mailer){
+
+        if (!empty($request->get('email'))){
+            $email = $request->get('email');
+            $user = $userRepository->findOneBy(['email'=>$email]);
+
+            if($user !== null){
+
+                $message = (new Swift_Message('Rénitialisation de mot de passe'))
+                    ->setFrom('aurel.bichop@laposte.net')
+                    ->setTo($user->getEmail())
+                    ->setBody(' Pour rénitialiser votre mot de passe merci de cliquer sur ce lien : http://127.0.0.1:8000/userpassword/reset/?token='.$user->getToken());
+
+                $mailer->send($message);
+
+                $this->addFlash(
+                    'info',
+                    "Un courriel vous a été envoyé !"
+                );
+            }else{
+                $this->addFlash(
+                    'danger',
+                    "Email invalide!"
+                );
+            }
+        }
+
+        return $this->render('account/forgot_pass.html.twig');
+    }
+
+
+    /**
+     * Permet de renitialiser un mot de passe oublié
+     *
+     * @Route("/userpassword/reset", name="password_reset")
+     *
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @param ObjectManager $manager
+     * @param UserPasswordEncoderInterface $encoder
+     * @return string
+     */
+    public function resetPassword(Request $request, UserRepository $userRepository, ObjectManager $manager,UserPasswordEncoderInterface $encoder){
+
+        $token = $request->query->get('token');
+        $user = $userRepository->findOneBy(['token'=>$token]);
+
+        if($user !== null){
+            $resetPassword = new ResetPassword();
+
+            $form = $this->createForm(ResetPasswordType::class,$resetPassword);
+
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid()){
+
+                $newPassword = $resetPassword->getNewPassword();
+                $newPasswordHash = $encoder->encodePassword($user,$newPassword);
+
+                $user->setPassword($newPasswordHash);
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash(
+                    'success',
+                    "Mot de passe modifié merci de vous connecter avec ce dernier !"
+                );
+                return $this->redirectToRoute('account_login');
+            }
+
+            return $this->render('account/reset_pass.html.twig',[
+                'form'=>$form->createView()
+            ]);
+        }
+
+        return $this->redirectToRoute('accueil');
+    }
 }
