@@ -96,7 +96,6 @@ class TrickController extends AbstractController
 
         return $this->render('trick/index.html.twig',[
                 'pagination' => $pagination
-
         ]);
     }
 
@@ -111,6 +110,7 @@ class TrickController extends AbstractController
         $depart = (int)$request->get('nbCard');
         $nbEnplus = 10;
 
+        //Pour tester dans des conditions Web
         //sleep(5);
 
         $listeMoreTrick = $trickRepository->findBy(
@@ -119,7 +119,6 @@ class TrickController extends AbstractController
             $limit = $nbEnplus,
             $offset = $depart
         );
-
 
         $datas = [];
         foreach ( $listeMoreTrick as $key => $item) {
