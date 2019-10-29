@@ -113,6 +113,9 @@ class TrickController extends AbstractController
         //Pour tester dans des conditions Web
         //sleep(5);
 
+        //recupere le nombre total de tricks
+        $nbTotalTrick = count($trickRepository->findAll());
+
         $listeMoreTrick = $trickRepository->findBy(
             array(),
             array('id'=>'DESC'),
@@ -127,6 +130,7 @@ class TrickController extends AbstractController
             $datas[$key]['author'] = $item->getAuthor()->getFullname();
             $datas[$key]['coverImage'] = $item->getCoverImage();
             $datas[$key]['id'] = $item->getId();
+            $datas[$key]['total'] = $nbTotalTrick;
         }
 
     return new JsonResponse($datas);
