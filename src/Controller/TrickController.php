@@ -388,7 +388,7 @@ class TrickController extends AbstractController
         $fileImage = $request->files->get('url');
         $imageName = $fileUploader->upload($fileImage);
 
-        $image->setTitle($request->get('title'));
+        $image->setTitle(htmlspecialchars($request->get('title')));
         $image->setUrl($imageName);
 
         $image->setTrick($trick);
