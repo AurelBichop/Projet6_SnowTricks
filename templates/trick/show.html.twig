@@ -16,14 +16,14 @@
 
         <div class="row my-3">
 
-            {% for image in trick.image %}
-                <div class="col-3 mb-3">
+            {% for image in trick.image | reverse %}
+                <div class="col-lg-3 col-md-6 mb-3">
                     <img src="{{ asset('uploads/images/') }}{{ image.url }}" alt="image {{ image.title }}" class="rounded img-fluid trick-picture">
                 </div>
             {% endfor %}
 
-            {% for video in trick.video %}
-                <div class="col-3 mb-3 video">
+            {% for video in trick.video | reverse %}
+                <div class="col-lg-3 col-md-6 mb-3 video">
 
                     <embed type="video/webm"
                            src="{{ video.url | raw }}"
@@ -72,28 +72,33 @@
 
             <hr>
 
-            {% for comment in trick.comment | reverse %}
+            <div id="insertComment">
 
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-1 col-sm-2 col-2">
-                    {{ comment.user.firstname }}
-                    <i class="fas fa-user-circle fa-3x"></i>
-                </div>
-                <div class="col-md-8 col-sm-8 col-8">
-                    <small> Le {{ comment.createdAt | date('d/m/Y') }} :</small>
-                    <div class="alert alert-info">{{ comment.content | nl2br }}</div>
+                {% for comment in comments %}
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-1 col-sm-2 col-2">
+                            {{ comment.user.firstname }}
+                            <i class="fas fa-user-circle fa-3x"></i>
+                        </div>
+                        <div class="col-md-8 col-sm-8 col-8">
+                            <small> Le {{ comment.createdAt | date('d/m/Y') }} :</small>
+                            <div class="alert alert-info comment">{{ comment.content | nl2br }}</div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+
+            <div class="d-flex justify-content-center mt-5" id="loadMoreComDiv">
+                <div class="card">
+                    <a href="#"><div id="loadMoreCom" class="card-body text-center"> <img id="ajax-loading-com" src="{{ asset('imageApp/ajax-loader.gif') }}" alt="Loading" /> Load more</div></a>
                 </div>
             </div>
 
-            {% endfor %}
+            {# Permet de recuperer la route et le total des tricks pour enelever le bouton load more #}
+            <span id="dataComment" data-total="{{ nbComments }}" data-route="{{ path('more_comment', {slug: trick.slug})}}"></span>
 
-            <div class="row mt-5">
-
-                <div class="card offset-md-5 col-md-2 offset-md-5">
-                    <div class="card-body text-center"><i class="fas fa-spinner"></i> Load more</div>
-                </div>
-
-            </div>
         {% else %}
 
             <div class="row text-center">
@@ -109,5 +114,9 @@
 
         {% endif %}
     </div>
+</div>
+{% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/commentaire.js') }}"></script>
 {% endblock %}

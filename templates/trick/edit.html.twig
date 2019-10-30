@@ -14,7 +14,7 @@
 
         <div class="row my-3">
 
-            {% for image in trick.image %}
+            {% for image in trick.image | reverse %}
                 <div class="col-3 mb-3">
                     <img src="{{ asset('uploads/images/') }}{{ image.url }}" alt="image {{ image.title }}" class="rounded img-fluid trick-picture">
                     <a href="{{ path('delete_image',{'id':image.id }) }}" onclick="return confirm('Voulez vous vraiment supprimer cette image')" class="float-right"><i class="far fa-trash-alt"></i></a>
@@ -22,7 +22,7 @@
             {% endfor %}
 
 
-            {% for video in trick.video %}
+            {% for video in trick.video | reverse %}
                 <div class="col-3 mb-3 video">
 
                     <embed type="video/webm"
@@ -128,17 +128,17 @@
             fileInputCover.change(function () {
                 //initialise le contenu
                 labelInput[0].innerHTML = '';
-                let labb = document.createElement('span');
-                labb.textContent = this.files[0].name;
-                labelInput[0].append(labb);
+                let spanInCover = document.createElement('span');
+                spanInCover.textContent = this.files[0].name;
+                labelInput[0].append(spanInCover);
             });
 
             imageTrick.change(function () {
                 //initialise le contenu
                 labelInput[1].innerHTML = '';
-                let labb = document.createElement('span');
-                labb.textContent = this.files[0].name;
-                labelInput[1].append(labb);
+                let spanIn = document.createElement('span');
+                spanIn.textContent = this.files[0].name;
+                labelInput[1].append(spanIn);
             });
             //**********************************************
 
@@ -204,7 +204,7 @@
                     delImageTag.appendChild(iconeDel);
                     divImage.appendChild(imageTag);
                     divImage.appendChild(delImageTag);
-                    divPlaceImage[1].appendChild(divImage);
+                    divPlaceImage[1].prepend(divImage);
 
                     $('#fenetreImage').modal('hide');
                 });
@@ -277,7 +277,7 @@
                         delVideoTag.appendChild(iconeDelVideo);
                         divVideo.appendChild(embedTag);
                         divVideo.appendChild(delVideoTag);
-                        divPlace[1].appendChild(divVideo);
+                        divPlace[1].prepend(divVideo);
 
                         //cache la fenetre modal
                         $('#fenetreVideo').modal('hide');

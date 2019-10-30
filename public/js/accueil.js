@@ -3,7 +3,11 @@ $( document ).ready(function(){
     //nombre de tricks affiché
     const loadMore = $("#loadMore");
     const loadMoreDiv = $("#loadMoreDiv");
-    let nbTotalCard;//total de cards
+    const dataTrick = $("#dataTrick");// recupere les informations pour le javascript
+    const route = dataTrick.data('route');// route pour l'appel ajax
+    let nbTrick = dataTrick.data('total');// total de tricks enregistré
+    let nbTotalCard;// initialisation du total de cards
+
 
     $('#ajax-loading').hide(); // On masque le gif au chargement de la page
 
@@ -13,7 +17,7 @@ $( document ).ready(function(){
 
         e.preventDefault();
         $.ajax({
-            url: "/trick/more",
+            url: route,
             type: "POST",
             data: { "nbCard": nbCard }
 
@@ -71,8 +75,6 @@ $( document ).ready(function(){
                 placeToInsert.append(divAuto);
 
 
-                //**** nombre total de trick
-                const nbTrick = data[i].total;
                 //Nombre total de card affiché
                 nbTotalCard = nbCard + data.length;
                 //****Verifie le total pour supprimer le bouton load more

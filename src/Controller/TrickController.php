@@ -9,6 +9,7 @@ use App\Entity\Trick;
 use App\Entity\Video;
 use App\Form\CommentType;
 use App\Form\TrickType;
+use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use App\Service\FileUploader;
 use App\Service\Pagination;
@@ -100,45 +101,6 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/more",name="more_tricks")
-     * @param TrickRepository $trickRepository
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function loadMore(TrickRepository $trickRepository, Request $request){
-
-        $depart = (int)$request->get('nbCard');
-        $nbEnplus = 10;
-
-        //Pour tester dans des conditions Web
-        //sleep(5);
-
-        //recupere le nombre total de tricks
-        //'nbTricks'=>$manager->createQuery('SELECT COUNT(t) FROM App\Entity\Trick t')->getSingleScalarResult();
-        $nbTotalTrick = count($trickRepository->findAll());
-
-        $listeMoreTrick = $trickRepository->findBy(
-            [],
-            ['id'=>'DESC'],
-            $limit = $nbEnplus,
-            $offset = $depart
-        );
-
-        $datas = [];
-        foreach ( $listeMoreTrick as $key => $item) {
-            $datas[$key]['titre'] = $item->getTitre();
-            $datas[$key]['slug'] = $item->getSlug();
-            $datas[$key]['author'] = $item->getAuthor()->getFullname();
-            $datas[$key]['coverImage'] = $item->getCoverImage();
-            $datas[$key]['id'] = $item->getId();
-            $datas[$key]['total'] = $nbTotalTrick;
-        }
-
-    return new JsonResponse($datas);
-
-    }
-
-    /**
      * Pour la supression d'une image de trick
      *
      * @Security("is_granted('ROLE_USER') and user === image.getTrick().getAuthor()")
@@ -172,10 +134,11 @@ class TrickController extends AbstractController
      * @param Trick $trick
      * @param Request $request
      * @param ObjectManager $manager
+     * @param CommentRepository $commentRepository
      * @return Response
      * @throws Exception
      */
-    public function show(Trick $trick, Request $request, ObjectManager $manager){
+    public function show(Trick $trick, Request $request, ObjectManager $manager, CommentRepository $commentRepository){
 
         $comment = new Comment();
 
@@ -207,6 +170,8 @@ class TrickController extends AbstractController
 
         return $this->render('trick/show.html.twig',[
             'trick' => $trick,
+            'comments'=>$commentRepository->findBy(['trick'=>$trick->getId()],['id'=>'DESC'],2) ,
+            'nbComments' =>count($trick->getComment()),
             'commentForm' => $formComment->createView()
         ]);
     }
@@ -427,6 +392,41 @@ class TrickController extends AbstractController
             "La video à bien été supprimé"
         );
         return $this->redirectToRoute('edit_trick',["slug"=>$video->getTrick()->getSlug()]);
+
+    }
+
+    /**
+     * @Route("/trick/{slug}/more",name="more_comment")
+     * @param Trick $trick
+     * @param CommentRepository $commentRepository
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function loadMore(Trick $trick, CommentRepository $commentRepository, Request $request){
+
+        $datas = [];
+        $depart = (int)$request->get('nbComment');
+        $nbEnplus = 5;
+
+        //Pour tester dans des conditions Web
+        //sleep(5);
+
+        $listeMoreComment = $commentRepository->findBy(
+            ['trick'=>$trick->getId()],
+            ['id'=>'DESC'],
+            $limit = $nbEnplus,
+            $offset = $depart
+        );
+
+
+        foreach ( $listeMoreComment as $key => $item) {
+            $datas[$key]['id'] = $item->getId();
+            $datas[$key]['contentCom'] = htmlspecialchars(nl2br($item->getContent()));
+            $datas[$key]['createdAt'] = $item->getCreatedAt()->format('d/m/Y');
+            $datas[$key]['author'] = $item->getUser()->getFirstName();
+        }
+
+        return new JsonResponse($datas);
 
     }
 }

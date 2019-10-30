@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Trick;
+
 use App\Repository\TrickRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,38 +23,43 @@ class AccueilController extends AbstractController
      */
     public function index(TrickRepository $trickRepository ,ObjectManager $manager)
     {
-
         return $this->render('accueil.html.twig', [
-
-            'tricks' => $trickRepository->findBy(
-                array(),
-                array('id'=>'DESC'),
-                10
-            ),
-            
+            'tricks' => $trickRepository->findBy([],['id'=>'DESC'],10),
+            'nbTricks'=>$manager->createQuery('SELECT COUNT(t) FROM App\Entity\Trick t')->getSingleScalarResult()
         ]);
     }
 
-
-    //**************************************************/
-
     /**
-     * Pour tester l'ajout d'un trick
-     * @Route("/ajout")
-     * @param ObjectManager $manager
-     * @return RedirectResponse
+     * @Route("/accueil/more",name="more_tricks")
+     * @param TrickRepository $trickRepository
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function addTrick(ObjectManager $manager){
+    public function loadMore(TrickRepository $trickRepository, Request $request){
 
-        $trick = new Trick();
+        $depart = (int)$request->get('nbCard');
+        $nbEnplus = 10;
 
-        $trick->setTitre('Figure de con fiture')
-                ->setDescription('un super trick a la noix de cajou et aux cahuette')
-                ->setVariety('group2');
+        //Pour tester dans des conditions Web
+        //sleep(5);
 
-        $manager->persist($trick);
-        $manager->flush();
+        $listeMoreTrick = $trickRepository->findBy(
+            [],
+            ['id'=>'DESC'],
+            $limit = $nbEnplus,
+            $offset = $depart
+        );
 
-        return $this->redirectToRoute('accueil');
+        $datas = [];
+        foreach ( $listeMoreTrick as $key => $item) {
+            $datas[$key]['titre'] = $item->getTitre();
+            $datas[$key]['slug'] = $item->getSlug();
+            $datas[$key]['author'] = $item->getAuthor()->getFullname();
+            $datas[$key]['coverImage'] = $item->getCoverImage();
+            $datas[$key]['id'] = $item->getId();
+        }
+
+        return new JsonResponse($datas);
+
     }
 }
