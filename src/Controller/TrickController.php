@@ -114,11 +114,12 @@ class TrickController extends AbstractController
         //sleep(5);
 
         //recupere le nombre total de tricks
+        //'nbTricks'=>$manager->createQuery('SELECT COUNT(t) FROM App\Entity\Trick t')->getSingleScalarResult();
         $nbTotalTrick = count($trickRepository->findAll());
 
         $listeMoreTrick = $trickRepository->findBy(
-            array(),
-            array('id'=>'DESC'),
+            [],
+            ['id'=>'DESC'],
             $limit = $nbEnplus,
             $offset = $depart
         );
@@ -306,8 +307,24 @@ class TrickController extends AbstractController
 
         $video = new Video();
 
-        $video->setTitle($request->get("title"));
-        $video->setUrl($request->get("url"));
+        $title = htmlspecialchars($request->get("title"));
+        $url = $request->get("url");
+
+        //reconstruit l'url de la source
+        $urlEmbed = $this->sourceVideo($url);
+
+        //retour d'un message si la vidéo ne provient pas des sources
+        //( dailymotion ou youtube )
+        if($urlEmbed === null){
+            return $this->json([
+
+                'message' => 'Erreur mauvaise Url pour la video',
+
+            ], 200);
+        }
+
+        $video->setTitle($title);
+        $video->setUrl($urlEmbed);
 
         $video->setTrick($trick);
 
@@ -316,7 +333,6 @@ class TrickController extends AbstractController
 
         return $this->json([
             'code' => 200,
-            'message' => 'Video bien ajouté',
             'lastVideoTitle'=>$video->getTitle(),
             'lastVideoId'=>$video->getId(),
             'lastVideoUrl'=>$video->getUrl()
@@ -325,6 +341,31 @@ class TrickController extends AbstractController
 
     }
 
+    /**
+     * Permet de retourner une url embed pour youtube ou dailymotion
+     *
+     * @param $url
+     * @return string|null
+     */
+    private function sourceVideo($url):?string {
+
+        if(strpos($url,'www.dailymotion.com')){
+
+            $ex = explode('/',$url);
+            $url = 'https://www.dailymotion.com/embed/video/'.end($ex);
+
+            return $url;
+
+        }elseif (strpos($url,'www.youtube.com')){
+
+            $ex = explode('=',$url);
+            $url = 'https://www.youtube.com/embed/'.$ex[1];
+
+            return $url;
+        }
+
+        return null;
+    }
 
     /**
      * Permet l'ajout d'une Image

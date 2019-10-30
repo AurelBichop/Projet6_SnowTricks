@@ -16,7 +16,7 @@
 
             {% for image in trick.image %}
                 <div class="col-3 mb-3">
-                    <img src="{{ asset('uploads/images/') }}{{ image.url }}" alt="image {{ image.title }}" class="rounded img-fluid">
+                    <img src="{{ asset('uploads/images/') }}{{ image.url }}" alt="image {{ image.title }}" class="rounded img-fluid trick-picture">
                     <a href="{{ path('delete_image',{'id':image.id }) }}" onclick="return confirm('Voulez vous vraiment supprimer cette image')" class="float-right"><i class="far fa-trash-alt"></i></a>
                 </div>
             {% endfor %}
@@ -35,12 +35,12 @@
                 </div>
             {% endfor %}
 
-            <div class="col-3 text-center">
+            <div class="col-3 text-center trick-picture">
                 <h4>Ajouter une image</h4>
                 <a href="#formulaire" id="newImage"><i class="fas fa-plus-circle fa-5x mt-3"></i></a>
             </div>
 
-            <div class="col-3 text-center">
+            <div class="col-3 text-center trick-picture">
                 <h4>Ajouter une Video</h4>
                 <a href="#formulaireVideo" id="newVideo"><i class="fas fa-video fa-5x mt-3"></i></a>
             </div>
@@ -86,7 +86,7 @@
 
     <div class="modal fade bs-example-modal-lg" id="fenetreVideo" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+            <div class="modal-content" id="place-erreur">
                 <div class="modal-body" id="formulaireVideo">
                     <form name="video" method="post" enctype="multipart/form-data">
 
@@ -96,7 +96,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="video_url">Url de la video</label>
+                            <label for="video_url">Url de la video <span class="text-danger">( fonctionne uniquement avec les vidéos de youtube ou dailymotion )</span></label>
                             <input type="text" id="video_url" class="form-control" name="video_url" required="required">
                         </div>
 
@@ -150,10 +150,12 @@
              * */
             const ajoutImage = $("#newImage");
             const formImage = form[1];
+            const fenetreImage = $('#fenetreImage');
+
 
             // Affiche le formulaire pour l'ajout d'une image
             ajoutImage.click(function(){
-                $('#fenetreImage').modal('show');
+                fenetreImage.modal('show');
             });
 
             formImage.addEventListener('submit',function(e) {
@@ -191,7 +193,7 @@
 
                     imageTag.src = "{{ asset('uploads/images/') }}"+data["lastImageUrl"];
                     imageTag.alt='image '+data["lastImageTitle"];
-                    imageTag.className ='rounded img-fluid';
+                    imageTag.className ='rounded img-fluid trick-picture';
 
                     iconeDel.className="far fa-trash-alt";
 
@@ -215,20 +217,24 @@
              * @type {jQuery.fn.init|jQuery|HTMLElement}
              */
             const ajoutVideo = $("#newVideo");
+            const fenetreVideo = $('#fenetreVideo');
+
             //Affiche la fenetre pour l'ajout d'une video
             ajoutVideo.click(function(){
-                $('#fenetreVideo').modal('show');
+                fenetreVideo.modal('show');
              });
 
             //pour l'ajout d'une video Ajax
             const formVideo = form[2];
+            //pour afficher un message si il y a une mauvaise Url
+            const erreurVideo = document.createElement('span');
 
             //declanchement par le submit du formulaire
             formVideo.addEventListener('submit',function(e){
 
                 const title = formVideo.elements.video_title.value;
                 const url = formVideo.elements.video_url.value;
-
+                const placeErreur = $('#place-erreur');
                 e.preventDefault();
 
                 $.ajax({
@@ -237,36 +243,45 @@
                     data: { "title": title,"url":url }
 
                 }).done(function(data){
-                    //console.log(data);
-                    //recupere l'emplacement
-                    let divPlace = document.getElementsByClassName('row');
-                    //Création des éléments du DOM
-                    const divVideo = document.createElement('div');
-                    const embedTag = document.createElement('embed');
+                    //console.log(data.message);
+                    erreurVideo.innerHTML = '';
 
-                    const delVideoTag = document.createElement('a');
-                    const iconeDelVideo = document.createElement('i');
+                    if (data.message){
+                        erreurVideo.textContent = data.message;
+                        erreurVideo.className = 'alert alert-danger mt-3 text-center';
+                        placeErreur.prepend(erreurVideo);
+                    }else {
 
-                    divVideo.className = 'col-3 mb-3 video';
-                    embedTag.type ="video/webm";
-                    embedTag.src = data["lastVideoUrl"];
-                    embedTag.width = "250";
-                    embedTag.height = "200";
-                    embedTag.alt = data["lastVideoTitle"];
-                    embedTag.className = "rounded";
+                        //recupere l'emplacement
+                        let divPlace = document.getElementsByClassName('row');
+                        //Création des éléments du DOM
+                        const divVideo = document.createElement('div');
+                        const embedTag = document.createElement('embed');
 
-                    iconeDelVideo.className="far fa-trash-alt";
+                        const delVideoTag = document.createElement('a');
+                        const iconeDelVideo = document.createElement('i');
 
-                    delVideoTag.href = '/trick/video/'+data["lastVideoId"]+'/delete';
-                    delVideoTag.className = "float-right";
+                        divVideo.className = 'col-3 mb-3 video';
+                        embedTag.type = "video/webm";
+                        embedTag.src = data["lastVideoUrl"];
+                        embedTag.width = "250";
+                        embedTag.height = "200";
+                        embedTag.alt = data["lastVideoTitle"];
+                        embedTag.className = "rounded";
 
-                    delVideoTag.appendChild(iconeDelVideo);
-                    divVideo.appendChild(embedTag);
-                    divVideo.appendChild(delVideoTag);
-                    divPlace[1].appendChild(divVideo);
+                        iconeDelVideo.className = "far fa-trash-alt";
 
-                    //cache la fenetre modal
-                    $('#fenetreVideo').modal('hide');
+                        delVideoTag.href = '/trick/video/' + data["lastVideoId"] + '/delete';
+                        delVideoTag.className = "float-right";
+
+                        delVideoTag.appendChild(iconeDelVideo);
+                        divVideo.appendChild(embedTag);
+                        divVideo.appendChild(delVideoTag);
+                        divPlace[1].appendChild(divVideo);
+
+                        //cache la fenetre modal
+                        $('#fenetreVideo').modal('hide');
+                    }
                 });
             });
         });

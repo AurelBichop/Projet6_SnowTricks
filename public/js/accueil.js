@@ -18,7 +18,7 @@ $( document ).ready(function(){
             data: { "nbCard": nbCard }
 
         }).done(function(data){
-            console.log(data);
+            //console.log(data);
             //recupere l'emplacement
             const placeToInsert = $(".row.mx-3");
 

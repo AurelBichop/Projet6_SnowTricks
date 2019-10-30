@@ -30,7 +30,7 @@ class AccueilController extends AbstractController
                 array('id'=>'DESC'),
                 10
             ),
-            'nbTricks'=>$manager->createQuery('SELECT COUNT(t) FROM App\Entity\Trick t')->getSingleScalarResult()
+            
         ]);
     }
 
