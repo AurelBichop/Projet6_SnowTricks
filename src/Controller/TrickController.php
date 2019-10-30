@@ -356,7 +356,7 @@ class TrickController extends AbstractController
 
             return $url;
 
-        }elseif (strpos($url,'www.youtube.com')){
+        }elseif (strpos($url,'www.youtube.com/watch?v')){
 
             $ex = explode('=',$url);
             $url = 'https://www.youtube.com/embed/'.$ex[1];
