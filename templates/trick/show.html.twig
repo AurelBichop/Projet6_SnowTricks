@@ -21,7 +21,7 @@
 
             {% for image in trick.image | reverse %}
                 <div class="col-lg-3 col-md-6 mb-3">
-                    <img src="{{ asset('uploads/images/') }}{{ image.url }}" alt="image {{ image.title }}" class="rounded img-fluid trick-picture">
+                    <img src="{{ asset('uploads/images/') }}{{ image.url }}" alt="image {{ image.title }}" class="rounded img-fluid trick-picture-trick">
                 </div>
             {% endfor %}
 
@@ -122,4 +122,6 @@
 
 {% block javascripts %}
     <script src="{{ asset('js/commentaire.js') }}"></script>
+    <script src="{{ asset('js/seeMedia.js') }}"></script>
+
 {% endblock %}

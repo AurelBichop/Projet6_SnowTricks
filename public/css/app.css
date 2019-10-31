@@ -29,8 +29,14 @@ div.trick-title {
 
 .trick-picture{
     height: 200px;
+    width: 300px;
+}
+
+.trick-picture-trick{
+    height: 200px;
     width: 250px;
 }
+
 
 /* Pour le label du input file */
 .custom-file-label::after{
@@ -48,6 +54,7 @@ div.trick-title {
 .bouton-media{
     display: none;
 }
+
 
 
 /* Pour cacher les medias avec un ecran reduit*/
