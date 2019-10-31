@@ -36,3 +36,10 @@ div.trick-title {
 .custom-file-label::after{
     content: "Parcourir";
 }
+
+/* Pour l'affichage du titre du trick sur son cover image */
+@media (max-width: 580px) {
+    .slogan {
+        font-size: 2em;
+    }
+}

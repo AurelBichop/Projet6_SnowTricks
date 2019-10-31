@@ -5,16 +5,16 @@
 {% block body %}
 <div class="container my-5">
     {% if trick.coverImage == ""  %}
-        <div class="row trick-title" style="background-image: url({{ asset('imageApp/snowboard.jpg') }})">
+        <div class="row col mx-auto trick-title" style="background-image: url({{ asset('imageApp/snowboard.jpg') }})">
     {% else %}
-        <div class="row trick-title" style="background-image: url({{ asset('uploads/images/') }}{{ trick.coverImage }})">
+        <div class="row col mx-auto trick-title" style="background-image: url({{ asset('uploads/images/') }}{{ trick.coverImage }})">
     {% endif %}
         <div class="col text-center align-self-center">
             <h3><span class="slogan">{{ trick.titre }}</span></h3>
         </div>
     </div>
 
-        <div class="row my-3">
+        <div class="row my-3 col mx-auto">
 
             {% for image in trick.image | reverse %}
                 <div class="col-lg-3 col-md-6 mb-3">
@@ -103,7 +103,7 @@
 
             <div class="row text-center">
                 <div class="col">
-                    <h2>Merci de vous connecter si vous souhaitez commenter</h2>
+                    <h2>Merci de vous connecter pour participer et voir les commentaires</h2>
                 </div>
             </div>
             <div class="row text-center">

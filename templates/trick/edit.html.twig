@@ -6,16 +6,16 @@
     <div class="container my-5">
         <h1>Modifier {{ trick.titre }}</h1>
         {% if trick.coverImage == ""  %}
-            <div class="row trick-title" style="background-image: url({{ asset('imageApp/snowboard.jpg') }})">
+            <div class="col mx-auto trick-title" style="background-image: url({{ asset('imageApp/snowboard.jpg') }})">
         {% else %}
-            <div class="row trick-title" style="background-image: url({{ asset('uploads/images/') }}{{ trick.coverImage }})">
+            <div class="col mx-auto trick-title" style="background-image: url({{ asset('uploads/images/') }}{{ trick.coverImage }})">
         {% endif %}
         </div>
 
-        <div class="row my-3">
+        <div class="row my-3 col mx-auto">
 
             {% for image in trick.image | reverse %}
-                <div class="col-3 mb-3">
+                <div class="col-lg-3 col-md-6 mb-3">
                     <img src="{{ asset('uploads/images/') }}{{ image.url }}" alt="image {{ image.title }}" class="rounded img-fluid trick-picture">
                     <a href="{{ path('delete_image',{'id':image.id }) }}" onclick="return confirm('Voulez vous vraiment supprimer cette image')" class="float-right"><i class="far fa-trash-alt"></i></a>
                 </div>
@@ -23,7 +23,7 @@
 
 
             {% for video in trick.video | reverse %}
-                <div class="col-3 mb-3 video">
+                <div class="col-lg-3 col-md-6 mb-3 video">
 
                     <embed type="video/webm"
                            src="{{ video.url | raw }}"
@@ -35,12 +35,12 @@
                 </div>
             {% endfor %}
 
-            <div class="col-3 text-center trick-picture">
+            <div class="col-lg-3 col-md-6 col mb-3 text-center trick-picture">
                 <h4>Ajouter une image</h4>
                 <a href="#formulaire" id="newImage"><i class="fas fa-plus-circle fa-5x mt-3"></i></a>
             </div>
 
-            <div class="col-3 text-center trick-picture">
+            <div class="col-lg-3 col-md-6 col mb-3 text-center trick-picture">
                 <h4>Ajouter une Video</h4>
                 <a href="#formulaireVideo" id="newVideo"><i class="fas fa-video fa-5x mt-3"></i></a>
             </div>

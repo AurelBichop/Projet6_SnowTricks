@@ -9,7 +9,12 @@ $( document ).ready(function(){
     const route = dataComment.data('route');// route pour l'appel ajax
 
     let nbCom = dataComment.data('total');// total de comments enregistré en Bdd
-    let nbTotalComment;// initialisation du total de cards
+    let nbTotalComment;// initialisation du total de comments
+
+    //Pour afficher le load more ap partir de 6 commentaires
+    if(nbCom < 6){
+        loadMoreComDiv.remove();
+    }
 
     animGifajax.hide(); // On masque le gif au chargement de la page
 

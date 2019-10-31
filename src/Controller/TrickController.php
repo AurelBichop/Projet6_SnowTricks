@@ -10,7 +10,6 @@ use App\Entity\Video;
 use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
-use App\Repository\TrickRepository;
 use App\Service\FileUploader;
 use App\Service\Pagination;
 use DateTime;
@@ -170,7 +169,7 @@ class TrickController extends AbstractController
 
         return $this->render('trick/show.html.twig',[
             'trick' => $trick,
-            'comments'=>$commentRepository->findBy(['trick'=>$trick->getId()],['id'=>'DESC'],2) ,
+            'comments'=>$commentRepository->findBy(['trick'=>$trick->getId()],['id'=>'DESC'],5) ,
             'nbComments' =>count($trick->getComment()),
             'commentForm' => $formComment->createView()
         ]);
@@ -402,7 +401,7 @@ class TrickController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function loadMore(Trick $trick, CommentRepository $commentRepository, Request $request){
+    public function loadMore(Trick $trick, CommentRepository $commentRepository, Request $request):JsonResponse{
 
         $datas = [];
         $depart = (int)$request->get('nbComment');
