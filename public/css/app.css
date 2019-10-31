@@ -43,3 +43,23 @@ div.trick-title {
         font-size: 2em;
     }
 }
+
+/* Bouton Voir media*/
+.bouton-media{
+    display: none;
+}
+
+
+/* Pour cacher les medias avec un ecran reduit*/
+@media (max-width: 768px) {
+
+    div.row.my-3.col.mx-auto.media-trick {
+        display: none;
+    }
+
+    /*Fait apparaitre le bouton*/
+    .bouton-media{
+        display: inline;
+    }
+
+}
