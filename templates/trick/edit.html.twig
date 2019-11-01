@@ -18,7 +18,7 @@
             <span class="btn btn-info bouton-media" id="see-media">Voir les Médias</span>
         </div>
 
-        <div class="row my-3 col mx-auto media-trick">
+        <div class="row mt-3 col mx-auto media-trick">
 
             {% for image in trick.image | reverse %}
                 <div class="col-lg-3 col-md-6 mb-3">
@@ -50,19 +50,22 @@
                     <h4>Ajouter une Video</h4>
                     <a href="#formulaireVideo" id="newVideo"><i class="fas fa-video fa-5x mt-3"></i></a>
                 </div>
-
-
-
         </div>
-
 
         {{ form_start(form) }}
 
         {{form_widget(form)}}
 
 
-        <button type="submit" class="btn btn-primary float-right">Sauvegarder</button> <a href="{{ path('delete_trick',{'slug':trick.slug }) }}" onclick="return confirm('Voulez vous vraiment supprimer le Trick : {{ trick.titre }}')" class="btn btn-danger float-right">Supprimer</a>
+        <button type="submit" class="btn btn-primary float-right">Sauvegarder</button>
         {{ form_end(form) }}
+
+        <form method="post" action="{{ path('delete_trick',{'slug':trick.slug }) }}" onsubmit="return confirm('Voulez vous vraiment supprimer le Trick : {{ trick.titre }}');">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.slug) }}">
+            <button class="btn btn-danger float-right">Supprimer</button>
+        </form>
+
     </div>
 
     <div class="modal fade bs-example-modal-lg" id="fenetreImage" role="dialog" aria-hidden="true">
@@ -157,9 +160,8 @@
              * Pour l'ajout des images
              * */
             const ajoutImage = $("#newImage");
-            const formImage = form[1];
+            const formImage = form[2];
             const fenetreImage = $('#fenetreImage');
-
 
             // Affiche le formulaire pour l'ajout d'une image
             ajoutImage.click(function(){

@@ -102,9 +102,9 @@ class TrickController extends AbstractController
     /**
      * Pour la supression d'une image de trick
      *
+     * @Route("/trick/image/{id}/delete",name="delete_image")
      * @Security("is_granted('ROLE_USER') and user === image.getTrick().getAuthor()")
      *
-     * @Route("/trick/image/{id}/delete",name="delete_image")
      * @param Image $image
      * @param ObjectManager $manager
      * @return RedirectResponse
@@ -236,24 +236,55 @@ class TrickController extends AbstractController
     /**
      * Permet la suppression d'un trick
      *
-     * @Route("/trick/{slug}/delete", name="delete_trick")
+     * @Route("/trick/{slug}/delete", name="delete_trick", methods={"DELETE"})
      * @Security("is_granted('ROLE_USER') and user === trick.getAuthor()")
      *
+     * @param Request $request
      * @param Trick $trick
-     * @param ObjectManager $manager
      * @return Response
      */
-    public function delete(Trick $trick,ObjectManager $manager){
+    public function delete(Request $request, Trick $trick): Response
+    {
+        dump($trick);
+        if ($this->isCsrfTokenValid('delete'.$trick->getSlug(), $request->request->get('_token'))){
+            $manager = $this->getDoctrine()->getManager();
+            $manager->remove($trick);
+            $manager->flush();
 
-        $manager->remove($trick);
-        $manager->flush();
+            $this->addFlash(
+                'success',
+                "Le trick {$trick->getTitre()} à bien été supprimé"
+            );
+        }else{
+            $this->addFlash(
+                'Erreur',
+                "Le trick {$trick->getTitre()} n'a pas été supprimé"
+            );
+        }
 
-        $this->addFlash(
-            'success',
-            "Le trick {$trick->getTitre()} à bien été supprimé"
-        );
         return $this->redirectToRoute('accueil');
     }
+
+    /*
+     * /**
+     * @Route("/{id}", name="produit_delete", methods={"DELETE"})
+     *
+    public function delete(Request $request, Produit $produit): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($produit);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('produit_index');
+    }
+     *
+     *
+     *
+     * */
+
+
 
     /**
      * Permet l'ajout d'une video

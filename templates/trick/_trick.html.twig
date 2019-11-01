@@ -28,13 +28,16 @@
 
                         {% if app.user and app.user == trick.author %}
                             <div class="col-2">
-                                <a href="{{ path('edit_trick',{'slug':trick.slug }) }}"><i class="fas fa-pen"></i></a>
+                                <a href="{{ path('edit_trick',{'slug':trick.slug }) }}" class="btn"><i class="fas fa-pen"></i></a>
                             </div>
-                            <div class="col">
-                                <a href="{{ path('delete_trick',{'slug':trick.slug }) }}" onclick="return confirm('Voulez vous vraiment supprimer le Trick : {{ trick.titre }}')"><i class="fas fa-trash"></i></a>
-                            </div>
-                        {% endif %}
 
+                            <form method="post" action="{{ path('delete_trick',{'slug':trick.slug }) }}" onsubmit="return confirm('Voulez vous vraiment supprimer le Trick : {{ trick.titre }}');">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.slug) }}">
+                                <button class="btn"><i class="fas fa-trash"></i></button>
+                            </form>
+
+                        {% endif %}
                     </div>
                 </div>
             </div>
