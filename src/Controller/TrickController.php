@@ -245,7 +245,7 @@ class TrickController extends AbstractController
      */
     public function delete(Request $request, Trick $trick): Response
     {
-        dump($trick);
+
         if ($this->isCsrfTokenValid('delete'.$trick->getSlug(), $request->request->get('_token'))){
             $manager = $this->getDoctrine()->getManager();
             $manager->remove($trick);
@@ -264,27 +264,6 @@ class TrickController extends AbstractController
 
         return $this->redirectToRoute('accueil');
     }
-
-    /*
-     * /**
-     * @Route("/{id}", name="produit_delete", methods={"DELETE"})
-     *
-    public function delete(Request $request, Produit $produit): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($produit);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('produit_index');
-    }
-     *
-     *
-     *
-     * */
-
-
 
     /**
      * Permet l'ajout d'une video
@@ -403,11 +382,11 @@ class TrickController extends AbstractController
     }
 
     /**
-     * Pour la supression d'une image de trick
-     *
-     * @Security("is_granted('ROLE_USER') and user === video.getTrick().getAuthor()")
+     * Pour la supression d'une video de trick
      *
      * @Route("/trick/video/{id}/delete",name="delete_video")
+     * @Security("is_granted('ROLE_USER') and user === video.getTrick().getAuthor()")
+     *
      * @param Video $video
      * @param ObjectManager $manager
      * @return RedirectResponse

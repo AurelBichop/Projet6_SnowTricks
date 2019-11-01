@@ -18,7 +18,7 @@
             <span class="btn btn-info bouton-media" id="see-media">Voir les Médias</span>
         </div>
 
-        <div class="row mt-3 col mx-auto media-trick">
+        <div class="row my-3 col mx-auto media-trick">
 
             {% for image in trick.image | reverse %}
                 <div class="col-lg-3 col-md-6 mb-3">
@@ -156,6 +156,7 @@
 
             //recupere tout les formulaires
             const form = $("form");
+
             /**
              * Pour l'ajout des images
              * */
@@ -228,14 +229,14 @@
              */
             const ajoutVideo = $("#newVideo");
             const fenetreVideo = $('#fenetreVideo');
+            //Formulaire ajout Video
+            const formVideo = form[3];
 
             //Affiche la fenetre pour l'ajout d'une video
             ajoutVideo.click(function(){
                 fenetreVideo.modal('show');
              });
 
-            //pour l'ajout d'une video Ajax
-            const formVideo = form[2];
             //pour afficher un message si il y a une mauvaise Url
             const erreurVideo = document.createElement('span');
 
@@ -296,5 +297,6 @@
             });
         });
     </script>
+
     <script src="{{ asset('js/seeMedia.js') }}"></script>
 {% endblock %}
