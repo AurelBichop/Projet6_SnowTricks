@@ -19,7 +19,7 @@ class AdminTrickController extends AbstractController
      */
     public function index(Pagination $pagination, $page)
     {
-        
+
         $pagination->setEntityClass(Trick::class)
             ->setPage($page)
             ->setLimit(20);
