@@ -29,8 +29,7 @@
                         {{trick.createdAt | date('d/m/Y') }}
                     </td>
                     <td>
-                        <a href="" class="btn btn-primary"><i class="fas fa-edit"></i></a>
-                        <a href="" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        <a href="{{ path('admin_tricks_delete',{'id':trick.id}) }}" class="btn btn-danger" onclick="return confirm('Voulez Vous vraimenbt supprimer le trick {{ trick.titre }}')"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             {% endfor %}
