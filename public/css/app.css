@@ -37,6 +37,11 @@ div.trick-title {
     width: 250px;
 }
 
+.small-coverImage{
+    height: 30px;
+    width: 30px;
+}
+
 
 /* Pour le label du input file */
 .custom-file-label::after{

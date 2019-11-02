@@ -9,6 +9,7 @@
             <thead>
             <th>Id</th>
             <th>Titre</th>
+            <th class="text-center">Image Principale</th>
             <th>Auteur</th>
             <th>Catégorie</th>
             <th>Création</th>
@@ -21,6 +22,12 @@
                 <tr>
                     <td>{{trick.id}}</td>
                     <td>{{trick.titre}}</td>
+                    <td class="text-center">
+                        {% if trick.coverImage %}
+                            <img src="{{asset('uploads/images/')}}{{ trick.coverImage }}" class="small-coverImage table-bordered"></td>
+                        {% else %}
+                            Image par default
+                        {% endif %}
                     <td>
                         {{trick.author.fullName}}
                     </td>

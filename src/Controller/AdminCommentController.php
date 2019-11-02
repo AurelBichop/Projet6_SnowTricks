@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Service\Pagination;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -9,10 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AdminTrickController extends AbstractController
+class AdminCommentController extends AbstractController
 {
     /**
-     * @Route("/admin/tricks/{page<\d+>?1}", name="admin_tricks_index")
+     * @Route("/admin/comments/{page<\d+>?1}", name="admin_comments_index")
      *
      * @param Pagination $pagination
      * @param $page
@@ -21,33 +22,33 @@ class AdminTrickController extends AbstractController
     public function index(Pagination $pagination, $page)
     {
 
-        $pagination->setEntityClass(Trick::class)
+        $pagination->setEntityClass(Comment::class)
             ->setPage($page)
             ->setLimit(20);
 
-        return $this->render('admin/trick/index.html.twig', [
+        return $this->render('admin/comment/index.html.twig', [
             'pagination' => $pagination
         ]);
     }
 
     /**
-     * Permet de supprimer un Trick
+     * Permet de supprimer un Commentaire
      *
-     * @Route("/admin/tricks/{id}/delete", name="admin_tricks_delete")
+     * @Route("/admin/comments/{id}/delete", name="admin_comments_delete")
      *
-     * @param Trick $trick
+     * @param Comment $comment
      * @param ObjectManager $manager
      * @return Response
      */
-    public function delete(Trick $trick, ObjectManager $manager){
-        $manager->remove($trick);
+    public function delete(Comment $comment, ObjectManager $manager){
+        $manager->remove($comment);
         $manager->flush();
 
         $this->addFlash(
             'success',
-            "Trick supprimé"
+            "Commentaire supprimé"
         );
 
-        return $this->redirectToRoute('admin_tricks_index');
+        return $this->redirectToRoute('admin_comments_index');
     }
 }
