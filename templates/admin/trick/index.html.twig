@@ -24,10 +24,10 @@
                     <td>{{trick.titre}}</td>
                     <td class="text-center">
                         {% if trick.coverImage %}
-                            <img src="{{asset('uploads/images/')}}{{ trick.coverImage }}" class="small-coverImage table-bordered"></td>
-                        {% else %}
-                            Image par default
-                        {% endif %}
+                        <img src="{{asset('uploads/images/')}}{{ trick.coverImage }}" class="small-coverImage table-bordered"></td>
+                    {% else %}
+                        Image par default
+                    {% endif %}
                     <td>
                         {{trick.author.fullName}}
                     </td>

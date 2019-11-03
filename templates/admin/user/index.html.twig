@@ -1,0 +1,54 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration des Utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="my-5">Gestion des Utilisateurs</h1>
+
+        <div class="row mb-5">
+            <div class="col">
+                Suprimer les comptes utilisateurs non validé
+                <a href="{{ path('admin_users_delete_unvalid') }}" class="btn btn-danger" onclick="return confirm('Voulez Vous vraiment supprimer les utilisateurs qui ont des comptes non validé')">Envoyer</a>
+            </div>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+            <th>Id</th>
+            <th>Nom et prénom</th>
+            <th>courriel</th>
+            <th class="text-center">Nombre de commentaires</th>
+            <th class="text-center">Compte Validé</th>
+            <th>Action</th>
+            </thead>
+
+            <tbody>
+            {% for user in pagination.data %}
+                <tr>
+                    <td>{{user.id}}</td>
+                    <td>
+                        {{user.fullName}}
+                    </td>
+                    <td>{{user.email}}</td>
+                    <td class="text-center">{{user.comments | length}}</td>
+                    <td class="text-center">
+                        {% if user.valid %}
+                            <span class="badge badge-info">Oui</span>
+                        {% else %}
+                            <span class="badge badge-danger">Non</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_users_delete',{'id':user.id}) }}" class="btn btn-danger" onclick="return confirm('Voulez Vous vraiment supprimer l\'utilisateur {{ user.fullname }}')"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+    {{ pagination.display }}
+{% endblock %}
+
