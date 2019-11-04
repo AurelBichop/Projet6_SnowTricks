@@ -27,14 +27,17 @@ class AccountUserController extends AbstractController
      * Permet d'afficher et gerer le formulaire de connection
      *
      * @Route("/login", name="account_login")
-     * @param AuthenticationUtils $utils
+     * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
-    public function login(AuthenticationUtils $utils)
+    public function login(AuthenticationUtils $authenticationUtils)
     {
-        $error = $utils->getLastAuthenticationError();
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('account/login.html.twig',[
+            'last_username' => $lastUsername,
             'error' => $error !== null
         ]);
     }
@@ -86,7 +89,7 @@ class AccountUserController extends AbstractController
 
             $this->addFlash(
                 'info',
-                "Bonjour {$user->getFullname()} et bienvenue sur SnowTrick"
+                "Bonjour {$user->getFullname()} Veuillez confirmer votre comptre avec le lien de l'email que nous venont de vous envoyer"
             );
 
             return $this->redirectToRoute('accueil');
@@ -155,7 +158,7 @@ class AccountUserController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Merci votre compte est validé !"
+                "Merci votre compte est validé, vous pouvez maintenant vous connecter !"
             );
 
         }else{
@@ -188,7 +191,7 @@ class AccountUserController extends AbstractController
                 $message = (new Swift_Message('Rénitialisation de mot de passe'))
                     ->setFrom('aurel.bichop@laposte.net')
                     ->setTo($user->getEmail())
-                    ->setBody(' Pour rénitialiser votre mot de passe merci de cliquer sur ce lien : http://127.0.0.1:8000/userpassword/reset/?token='.$user->getToken());
+                    ->setBody(' Pour réinitialiser votre mot de passe merci de cliquer sur ce lien : http://127.0.0.1:8000/userpassword/reset/?token='.$user->getToken());
 
                 $mailer->send($message);
 

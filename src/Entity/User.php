@@ -288,7 +288,7 @@ class User implements UserInterface
      */
     public function initToken(){
         if(empty($this->token)){
-            $this->token = md5($this->email);
+            $this->token = password_hash($this->email,PASSWORD_DEFAULT);
         }
     }
 
