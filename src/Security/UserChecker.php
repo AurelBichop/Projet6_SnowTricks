@@ -27,8 +27,7 @@ class UserChecker implements UserCheckerInterface
         }
         //Permet de verifier si le compte est validé
         if ($user->getValid() === 0) {
-            $this->redirect();
-            //throw new \Exception("Le compte n'est pas valide");
+            throw new \Exception("Le compte n'est pas valide");
         }
     }
 
