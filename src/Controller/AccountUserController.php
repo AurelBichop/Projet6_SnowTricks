@@ -61,6 +61,7 @@ class AccountUserController extends AbstractController
      * @param UserPasswordEncoderInterface $encoder
      * @param Swift_Mailer $mailer
      * @return Response
+     * @throws \Exception
      */
     public function register(Request $request,ObjectManager $manager, UserPasswordEncoderInterface $encoder,Swift_Mailer $mailer)
     {
@@ -72,6 +73,7 @@ class AccountUserController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
 
             $user->setPassword($encoder->encodePassword($user,$user->getPassword()));
+            $user->setCreatedAt(new \DateTime('now'));
 
             $manager->persist($user);
             $manager->flush();
