@@ -20,6 +20,7 @@
             <th>courriel</th>
             <th class="text-center">Nombre de commentaires</th>
             <th class="text-center">Compte Validé</th>
+            <th class="text-center">Date de création du compte</th>
             <th>Action</th>
             </thead>
 
@@ -39,6 +40,7 @@
                             <span class="badge badge-danger">Non</span>
                         {% endif %}
                     </td>
+                    <td class="text-center">le {{user.createdAt | date('d/m/Y')}}</td>
                     <td>
                         <a href="{{ path('admin_users_delete',{'id':user.id}) }}" class="btn btn-danger" onclick="return confirm('Voulez Vous vraiment supprimer l\'utilisateur {{ user.fullname }}')"><i class="fas fa-trash"></i></a>
                     </td>
