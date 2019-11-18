@@ -1,5 +1,7 @@
 # projet6_site_communautaire_SnowTricks_OC
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8720c4c852ad40819b24955a89f68229)](https://www.codacy.com/manual/AurelBichop/Projet6_SnowTricks?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AurelBichop/Projet6_SnowTricks&amp;utm_campaign=Badge_Grade)
+
 Bichotte Aurelien
 
 Exemple d'un site communautaire avec une interface d'administration pour supprimer les tricks, supprimer les commentaires ou utlisateurs.
