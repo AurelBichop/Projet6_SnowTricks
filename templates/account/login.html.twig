@@ -12,7 +12,7 @@
                 <div class="border border-primary py-5 px-5">
 
                     {% if error %}
-                        <div class="alert alert-danger">Erreur, email ou mot de passe invalide</div>
+                        <div class="alert alert-danger">Mauvais renseignements, ou compte non validé.</div>
                     {% endif %}
 
                     <form action="{{ path('account_login') }}" method="post">

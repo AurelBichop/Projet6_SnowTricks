@@ -33,6 +33,7 @@ class AccountUserController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils)
     {
         $error = $authenticationUtils->getLastAuthenticationError();
+
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
