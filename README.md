@@ -12,6 +12,32 @@ https://openclassrooms.com/fr/paths/59-developpeur-dapplication-php-symfony
 le projet est actuelement en phase de test.
 
 
+Pour un hebergement avec OVH : 
+ajouter 2 .htaccess
+
+Un dans la racine de ton projet
+================================
+SetEnv SHORT_OPEN_TAGS 0
+SetEnv REGISTER_GLOBALS 0
+SetEnv MAGIC_QUOTES 0
+SetEnv SESSION_AUTOSTART 0
+SetEnv ZEND_OPTIMIZER 1
+SetEnv PHP_VER 7_2
+
+RewriteEngine on
+RewriteBase /
+
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*)$ /public/$1 [L]
+====================================
+
+Et un autre dans public/
+==================================
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php [QSA,L]
+=======================================
+
 
 Technologie utilisé :
 Base de donnée : Sypfony 4.3.3, MYSQL ou MariaDB, langage PHP 7.1.
