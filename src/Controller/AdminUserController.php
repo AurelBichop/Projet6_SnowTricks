@@ -70,7 +70,7 @@ class AdminUserController extends AbstractController
      */
     public function delete(User $user, ObjectManager $manager){
 
-        //* Attention clef etrangere empeche cela
+
         $manager->remove($user);
         $manager->flush();
 

@@ -12,32 +12,40 @@ https://openclassrooms.com/fr/paths/59-developpeur-dapplication-php-symfony
 le projet est actuelement en phase de test.
 
 
-Pour un hebergement avec OVH : 
-ajouter 2 .htaccess
+###Installation de l'application
 
-Un dans la racine de ton projet
-================================
-SetEnv SHORT_OPEN_TAGS 0
-SetEnv REGISTER_GLOBALS 0
-SetEnv MAGIC_QUOTES 0
-SetEnv SESSION_AUTOSTART 0
-SetEnv ZEND_OPTIMIZER 1
-SetEnv PHP_VER 7_2
+Installer tout les fichiers sur le serveur en utilisant la commande:
+ 
+ __git clone https://github.com/AurelBichop/Projet6_SnowTricks.git__
+ 
+ Faire un import du fichier snowtricks.sql dans sa base de donnée
+ 
+ ###Configuration de l'application 
+ 
+ ##### Base de Données et Email
+ Renseigner la base de données et les informations d'email dans le fichier .env puis dans le fichier /src/Controller/AccountUserController (methode regiter et forgotPassword)
+ ajouter également votre email et modifier le lien dans body du courriel http://VOTRE_URL/confirm/?token='.$user->getToken()) et http://VOTRE_URL/userpassword/reset/?token='.$user->getToken()
 
-RewriteEngine on
-RewriteBase /
+##### ROLE et Variety
+Renseigner la table variety (le champ 'title') avec les différents nom de catégories que vous souhaitez pour les tricks.
 
-RewriteCond %{REQUEST_URI} !^/public/
-RewriteRule ^(.*)$ /public/$1 [L]
-====================================
+Pour avoir un accés à l'administration, ajouter ROLE_ADMIN dans le champ title de la table role.
+Ensuite renseigner la table role_user avec l'id du ROLE_ADMIN (le 1 si vous n'avez pas creé d'autre rôle) et l'id du user que vous souhaitez avoir en administrateur.
 
-Et un autre dans public/
-==================================
+##Pour un hebergement avec OVH : 
+
+####ajouter un .htaccess dans public/
+
+========================================
+
 RewriteEngine On
+
 RewriteCond %{REQUEST_FILENAME} !-f
+
 RewriteRule ^(.*)$ index.php [QSA,L]
+
 =======================================
 
 
 Technologie utilisé :
-Base de donnée : Sypfony 4.3.3, MYSQL ou MariaDB, langage PHP 7.1.
+Base de donnée : Symfony 4.3.3, MYSQL v.5.6 ou  MariaDB-10.4.6, langage PHP 7.3
