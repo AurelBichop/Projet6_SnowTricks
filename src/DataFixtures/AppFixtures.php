@@ -21,7 +21,6 @@ class AppFixtures extends Fixture
 
         $faker = Factory::create('fr-FR');
 
-
         //Creation des variety
         $variety1 = new Variety();
         $variety1->setTitle('categorie1');
@@ -45,7 +44,7 @@ class AppFixtures extends Fixture
 
         //création de faux utilisateur
         $users=[];
-        for ($i =1;$i<=2;$i++){
+        for ($i =1;$i<=30;$i++){
             $user = new User();
             $password = $this->encoder->encodePassword($user,'password');
             $user->setEmail($faker->email)
@@ -56,11 +55,10 @@ class AppFixtures extends Fixture
             $users[] = $user;
         }
         //Création de faux tricks
-        for ($i =1;$i<=5;$i++){
+        for ($i =1;$i<=30;$i++){
             $user = $users[mt_rand(0,count($users)-1)];
             $title = $faker->sentence(mt_rand(1,4));
             $description = $faker->paragraph(mt_rand(0,10));
-            $variety = 'groupe'.mt_rand(1,5);
             $trick = new Trick();
             $trick->setTitre($title)
                 ->setDescription($description)
