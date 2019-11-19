@@ -113,7 +113,6 @@ class Trick
      * CallBack Appelé a chaque fois qu'on créé un Trick
      *
      * @ORM\PrePersist
-     * @ORM\PreUpdate
      *
      * @return void
      * @throws Exception
