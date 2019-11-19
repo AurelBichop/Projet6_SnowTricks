@@ -18,7 +18,7 @@ class AccueilControllerTest extends WebTestCase{
     }
 
     /**
-     * Permet de tester la route pour le load more de l'accueil
+     * Permet de tester la route pour le load more(appel Ajax) de l'accueil
      */
     public function testLoadMore()
     {
