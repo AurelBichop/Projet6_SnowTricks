@@ -12,7 +12,7 @@ https://openclassrooms.com/fr/paths/59-developpeur-dapplication-php-symfony
 le projet est actuelement en phase de test.
 
 
-###Installation de l'application
+###Installation de l'application ###
 
 Installer tout les fichiers sur le serveur en utilisant la commande:
  
@@ -20,21 +20,21 @@ Installer tout les fichiers sur le serveur en utilisant la commande:
  
  Faire un import du fichier snowtricks.sql dans sa base de donnée
  
- ###Configuration de l'application 
+ ###Configuration de l'application ###
  
- ##### Base de Données et Email
+ ##### Base de Données et Email ######
  Renseigner la base de données et les informations d'email dans le fichier .env puis dans le fichier /src/Controller/AccountUserController (methode regiter et forgotPassword)
  ajouter également votre email et modifier le lien dans body du courriel http://VOTRE_URL/confirm/?token='.$user->getToken()) et http://VOTRE_URL/userpassword/reset/?token='.$user->getToken()
 
-##### ROLE et Variety
+##### ROLE et Variety #####
 Renseigner la table variety (le champ 'title') avec les différents nom de catégories que vous souhaitez pour les tricks.
 
 Pour avoir un accés à l'administration, ajouter ROLE_ADMIN dans le champ title de la table role.
 Ensuite renseigner la table role_user avec l'id du ROLE_ADMIN (le 1 si vous n'avez pas creé d'autre rôle) et l'id du user que vous souhaitez avoir en administrateur.
 
-##Pour un hebergement avec OVH : 
+##Pour un hebergement avec OVH : ##
 
-####ajouter un .htaccess dans public/
+####ajouter un .htaccess dans public/ ####
 
 ========================================
 
