@@ -56,16 +56,16 @@
 
         {{form_widget(form)}}
 
+        <div class="row justify-content-end">
+            <button type="submit" class="btn btn-primary float-right">Sauvegarder</button>
+            {{ form_end(form) }}
 
-        <button type="submit" class="btn btn-primary float-right">Sauvegarder</button>
-        {{ form_end(form) }}
-
-        <form method="post" action="{{ path('delete_trick',{'slug':trick.slug }) }}" onsubmit="return confirm('Voulez vous vraiment supprimer le Trick : {{ trick.titre }}');">
-            <input type="hidden" name="_method" value="DELETE">
-            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.slug) }}">
-            <button class="btn btn-danger float-right">Supprimer</button>
-        </form>
-
+            <form method="post" action="{{ path('delete_trick',{'slug':trick.slug }) }}" onsubmit="return confirm('Voulez vous vraiment supprimer le Trick : {{ trick.titre }}');">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.slug) }}">
+                <button class="btn btn-danger float-right">Supprimer</button>
+            </form>
+        </div>
     </div>
 
     <div class="modal fade bs-example-modal-lg" id="fenetreImage" role="dialog" aria-hidden="true">
