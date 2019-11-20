@@ -50,7 +50,12 @@
             </div>
 
             <div class="col text-center mb-3">
-                <span class="btn btn-danger">Modifié le {{ trick.modifiedAt | date('d/m/Y') }}</span>
+
+                {% if trick.modifiedAt is null %}
+                    <span class="btn btn-danger">Modifié le {{ trick.createdAt | date('d/m/Y') }}</span>
+                {% else %}
+                    <span class="btn btn-danger">Modifié le {{ trick.modifiedAt | date('d/m/Y') }}</span>
+                {% endif %}
             </div>
 
             <div class="col text-center mb-3">
