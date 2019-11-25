@@ -46,8 +46,8 @@ class AccueilController extends AbstractController
         $listeMoreTrick = $trickRepository->findBy(
             [],
             ['id'=>'DESC'],
-            $limit = $nbEnplus,
-            $offset = $depart
+            $nbEnplus,
+            $depart
         );
 
         $datas = [];

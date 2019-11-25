@@ -325,15 +325,15 @@ class TrickController extends AbstractController
 
         if(strpos($url,'www.dailymotion.com')){
 
-            $ex = explode('/',$url);
-            $url = 'https://www.dailymotion.com/embed/video/'.end($ex);
+            $exp = explode('/',$url);
+            $url = 'https://www.dailymotion.com/embed/video/'.end($exp);
 
             return $url;
 
         }elseif (strpos($url,'www.youtube.com/watch?v')){
 
-            $ex = explode('=',$url);
-            $url = 'https://www.youtube.com/embed/'.$ex[1];
+            $exp = explode('=',$url);
+            $url = 'https://www.youtube.com/embed/'.$exp[1];
 
             return $url;
         }
@@ -423,8 +423,8 @@ class TrickController extends AbstractController
         $listeMoreComment = $commentRepository->findBy(
             ['trick'=>$trick->getId()],
             ['id'=>'DESC'],
-            $limit = $nbEnplus,
-            $offset = $depart
+            $nbEnplus,
+            $depart
         );
 
 

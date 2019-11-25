@@ -21,11 +21,11 @@ class ImageTest extends TestCase
 
 
         $image = new Image();
-        $image->setTitle('Image tets')
+        $image->setTitle('Image test')
             ->setUrl('monimage')
             ->setTrick($trick);
 
-        $this->assertEquals('Image tets', $image->getTitle());
+        $this->assertEquals('Image test', $image->getTitle());
         $this->assertEquals('monimage', $image->getUrl());
         $this->assertInstanceOf(Trick::class, $image->getTrick());
     }

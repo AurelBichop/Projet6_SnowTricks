@@ -3,12 +3,12 @@ $( document ).ready(function(){
 
     const loadMoreComment = $("#loadMoreCom");
     const loadMoreComDiv = $("#loadMoreComDiv");
-    const animGifajax = $('#ajax-loading-com');
+    const animGifajax = $("#ajax-loading-com");
 
     const dataComment = $("#dataComment");// recupere les informations pour le javascript
-    const route = dataComment.data('route');// route pour l'appel ajax
+    const route = dataComment.data("route");// route pour l'appel ajax
 
-    let nbCom = dataComment.data('total');// total de comments enregistré en Bdd
+    let nbCom = dataComment.data("total");// total de comments enregistré en Bdd
     let nbTotalComment;// initialisation du total de comments
 
     //Pour afficher le load more ap partir de 6 commentaires
@@ -36,24 +36,24 @@ $( document ).ready(function(){
             //insertion avec boucle
             for(let i=0; i<data.length;i++){
 
-                let divRowCom = document.createElement('div');
-                divRowCom.className = 'row d-flex justify-content-center';
+                let divRowCom = document.createElement("div");
+                divRowCom.className = "row d-flex justify-content-center";
 
-                let divUser = document.createElement('div');
-                divUser.className = 'col-md-1 col-sm-2 col-2';
+                let divUser = document.createElement("div");
+                divUser.className = "col-md-1 col-sm-2 col-2";
                 divUser.textContent = data[i].author;
 
-                let iUser = document.createElement('i');
-                iUser.className = 'fas fa-user-circle fa-3x';
+                let iUser = document.createElement("i");
+                iUser.className = "fas fa-user-circle fa-3x";
 
-                let divComContent = document.createElement('div');
+                let divComContent = document.createElement("div");
                 divComContent.className = "col-md-8 col-sm-8 col-8";
 
-                let smallDate = document.createElement('small');
-                smallDate.textContent = 'Le '+data[i].createdAt;
+                let smallDate = document.createElement("small");
+                smallDate.textContent = "Le "+data[i].createdAt;
 
-                let divAlert = document.createElement('div');
-                divAlert.className = 'alert alert-info comment';
+                let divAlert = document.createElement("div");
+                divAlert.className = "alert alert-info comment";
                 divAlert.innerHTML = data[i].contentCom;
 
                 divUser.append(iUser);

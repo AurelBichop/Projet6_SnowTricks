@@ -4,15 +4,15 @@ $( document ).ready(function(){
     const loadMore = $("#loadMore");
     const loadMoreDiv = $("#loadMoreDiv");
     const dataTrick = $("#dataTrick");// recupere les informations pour le javascript
-    const route = dataTrick.data('route');// route pour l'appel ajax
-    let nbTrick = dataTrick.data('total');// total de tricks enregistré
+    const route = dataTrick.data("route");// route pour l'appel ajax
+    let nbTrick = dataTrick.data("total");// total de tricks enregistré
     let nbTotalCard;// initialisation du total de cards
 
 
-    $('#ajax-loading').hide(); // On masque le gif au chargement de la page
+    $("#ajax-loading").hide(); // On masque le gif au chargement de la page
 
     loadMore.click(function(e){
-        $('#ajax-loading').show();// On montre le gif pour le chargement des tricks
+        $("#ajax-loading").show();// On montre le gif pour le chargement des tricks
         let nbCard = $(".card.border-info.trick-card").length;
 
         e.preventDefault();
@@ -29,38 +29,38 @@ $( document ).ready(function(){
             //insertion avec boucle
             for(let i=0; i<data.length;i++){
 
-                let divAuto = document.createElement('div');
-                divAuto.className = 'mx-auto my-5';
+                let divAuto = document.createElement("div");
+                divAuto.className = "mx-auto my-5";
 
-                let div = document.createElement('div');
-                div.className = 'card border-info trick-card';
+                let div = document.createElement("div");
+                div.className = "card border-info trick-card";
 
-                let divHeader = document.createElement('div');
+                let divHeader = document.createElement("div");
                 divHeader.className = "card-header";
 
-                let imageCover = document.createElement('img');
-                imageCover.className = 'rounded img-fluid trick-picture';
-                imageCover.alt = 'image du trick ' + data[i].titre;
+                let imageCover = document.createElement("img");
+                imageCover.className = "rounded img-fluid trick-picture";
+                imageCover.alt = "image du trick " + data[i].titre;
 
                 if(data[i].coverImage){
-                    imageCover.src = 'uploads/images/' + data[i].coverImage;
+                    imageCover.src = "uploads/images/" + data[i].coverImage;
                 }else{
-                    imageCover.src = 'imageApp/snowboard.jpg';
+                    imageCover.src = "imageApp/snowboard.jpg";
                 }
 
-                let divBody = document.createElement('div');
-                divBody.className = 'card-body';
+                let divBody = document.createElement("div");
+                divBody.className = "card-body";
 
-                let divRow = document.createElement('div');
-                divRow.className = 'row';
+                let divRow = document.createElement("div");
+                divRow.className = "row";
 
-                let divCol = document.createElement('div');
-                divRow.className = 'col-12';
+                let divCol = document.createElement("div");
+                divRow.className = "col-12";
 
-                let lienSlug = document.createElement('a');
+                let lienSlug = document.createElement("a");
                 lienSlug.href = "/trick/" + data[i].slug;
 
-                let titreCard = document.createElement('h4');
+                let titreCard = document.createElement("h4");
                 titreCard.className = "card-title text-center";
                 titreCard.textContent = data[i].titre;
 
@@ -83,7 +83,7 @@ $( document ).ready(function(){
                 }
             }
 
-            $('#ajax-loading').hide(); // On masque le gif
+            $("#ajax-loading").hide(); // On masque le gif
         });
 
     });

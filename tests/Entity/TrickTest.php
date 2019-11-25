@@ -19,4 +19,5 @@ class TrickTest extends TestCase
 
         $this->assertEquals('titre-de-trick-en-test', $trick->getSlug());
     }
+
 }
